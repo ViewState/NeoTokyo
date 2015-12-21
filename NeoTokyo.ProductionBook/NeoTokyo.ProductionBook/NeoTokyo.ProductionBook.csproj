@@ -170,6 +170,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ResourceGroupController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="DAL\ProductionBookContext.cs" />
     <Compile Include="DAL\ProductionBookInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,6 +241,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Staff\Create.cshtml" />
+    <Content Include="Views\Staff\Delete.cshtml" />
+    <Content Include="Views\Staff\Details.cshtml" />
+    <Content Include="Views\Staff\Edit.cshtml" />
+    <Content Include="Views\Staff\Index.cshtml" />
+    <Content Include="Views\ResourceGroup\Create.cshtml" />
+    <Content Include="Views\ResourceGroup\Delete.cshtml" />
+    <Content Include="Views\ResourceGroup\Details.cshtml" />
+    <Content Include="Views\ResourceGroup\Edit.cshtml" />
+    <Content Include="Views\ResourceGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
