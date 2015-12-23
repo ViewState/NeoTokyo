@@ -6,9 +6,9 @@ namespace NeoTokyo.ProductionBook.Models
 {
     public class StaffResourceGroupLink
     {
-        [Key]
-        [ForeignKey("Staff")]
+        [Key, ForeignKey("Staff")]
         public Guid StaffID { get; set; }
+        [ForeignKey("ResourceGroup")]
         public Guid ResourceGroupID { get; set; }
 
         public virtual Staff Staff { get; set; }

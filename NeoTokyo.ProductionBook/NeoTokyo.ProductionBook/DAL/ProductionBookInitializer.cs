@@ -13,6 +13,8 @@ namespace NeoTokyo.ProductionBook.DAL
 
             context.ResourceGroups.Add(resourceGroup);
 
+            context.SaveChanges();
+
             var staffs = new List<Staff>
             {
                 new Staff {FirstName = "Peter", MiddleName = "David", LastName = "Rowley", Active = true},
@@ -21,6 +23,8 @@ namespace NeoTokyo.ProductionBook.DAL
             };
 
             staffs.ForEach(staff => context.Staffs.Add(staff));
+
+            context.SaveChanges();
 
             var staffResourceGroupLinks = new List<StaffResourceGroupLink>();
 

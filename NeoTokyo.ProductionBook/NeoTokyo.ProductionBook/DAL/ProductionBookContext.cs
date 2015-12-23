@@ -16,6 +16,7 @@ namespace NeoTokyo.ProductionBook.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<StaffResourceGroupLink>().HasKey(s => s.StaffID);
             modelBuilder.Entity<Staff>().HasOptional(staff => staff.StaffResourceGroupLink).WithRequired(link => link.Staff);
         }
     }
