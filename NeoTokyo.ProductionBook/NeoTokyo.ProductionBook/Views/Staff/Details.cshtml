@@ -1,4 +1,4 @@
-﻿@model NeoTokyo.ProductionBook.Models.Staff
+﻿@model NeoTokyo.ProductionBook.ViewModel.StaffResourceGroupViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -43,6 +43,12 @@
             @Html.DisplayFor(model => model.Active)
         </dd>
 
+        <dt>
+            Resource Group
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResourceGroupName)
+        </dd>
     </dl>
 </div>
 <p>

@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using NeoTokyo.ProductionBook.DAL;
 using NeoTokyo.ProductionBook.Models;
+using NeoTokyo.ProductionBook.ViewModel;
 
 namespace NeoTokyo.ProductionBook.Controllers
 {
@@ -26,12 +27,24 @@ namespace NeoTokyo.ProductionBook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Staffs.Find(id);
+            Staff staff = db.Staffs.Include(i => i.StaffResourceGroupLink).Include(a => a.StaffResourceGroupLink.ResourceGroup).Where(s => s.ID == id).Single();
+
+            StaffResourceGroupViewModel staffResourceGroup = new StaffResourceGroupViewModel
+            {
+                ID = staff.ID,
+                Active = staff.Active,
+                FirstName = staff.FirstName,
+                MiddleName = staff.MiddleName,
+                LastName = staff.LastName,
+                ResourceGroupID = staff.StaffResourceGroupLink.ResourceGroupID,
+                ResourceGroupName = staff.StaffResourceGroupLink.ResourceGroup.Name,
+            };
+
             if (staff == null)
             {
                 return HttpNotFound();
             }
-            return View(staff);
+            return View(staffResourceGroup);
         }
 
         // GET: Staff/Create
