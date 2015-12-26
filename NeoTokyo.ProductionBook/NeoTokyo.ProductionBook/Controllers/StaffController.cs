@@ -27,8 +27,8 @@ namespace NeoTokyo.ProductionBook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Staffs.Include(i => i.StaffResourceGroupLink).Include(a => a.StaffResourceGroupLink.ResourceGroup).Where(s => s.ID == id).Single();
-
+            //Staff staff = db.Staffs.Include(i => i.StaffResourceGroupLink).Include(a => a.StaffResourceGroupLink.ResourceGroup).Where(s => s.ID == id).Single();
+            Staff staff = db.Staffs.Find(id);
             StaffResourceGroupViewModel staffResourceGroup = new StaffResourceGroupViewModel
             {
                 ID = staff.ID,
@@ -36,8 +36,8 @@ namespace NeoTokyo.ProductionBook.Controllers
                 FirstName = staff.FirstName,
                 MiddleName = staff.MiddleName,
                 LastName = staff.LastName,
-                ResourceGroupID = staff.StaffResourceGroupLink.ResourceGroupID,
-                ResourceGroupName = staff.StaffResourceGroupLink.ResourceGroup.Name,
+                ResourceGroupID = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroupID : (Guid?)null,
+                ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
             };
 
             if (staff == null)
@@ -50,7 +50,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // GET: Staff/Create
         public ActionResult Create()
         {
-            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID");
+            PopulateResourceGroupDropDown();
             return View();
         }
 
@@ -59,18 +59,36 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Active")] Staff staff)
+        public ActionResult Create([Bind(Include = "FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroupViewModel)
         {
             if (ModelState.IsValid)
             {
-                staff.ID = Guid.NewGuid();
+                Staff staff = new Staff
+                {
+                    Active = staffResourceGroupViewModel.Active,
+                    FirstName = staffResourceGroupViewModel.FirstName,
+                    MiddleName = staffResourceGroupViewModel.MiddleName,
+                    LastName = staffResourceGroupViewModel.LastName,
+                };
+
                 db.Staffs.Add(staff);
+
+                if(staffResourceGroupViewModel.ResourceGroupID.HasValue)
+                {
+                    StaffResourceGroupLink link = new StaffResourceGroupLink
+                    {
+                        ResourceGroupID = staffResourceGroupViewModel.ResourceGroupID.Value,
+                        StaffID = staff.ID,
+                    };
+                    db.StaffResourceGroupLinks.Add(link);
+                }
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staff.ID);
-            return View(staff);
+            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staffResourceGroupViewModel.ID);
+            return View(staffResourceGroupViewModel);
         }
 
         // GET: Staff/Edit/5
@@ -139,6 +157,13 @@ namespace NeoTokyo.ProductionBook.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void PopulateResourceGroupDropDown(object selectedResourceGroup = null)
+        {
+            var resourceGroups = from r in db.ResourceGroups orderby r.Name select r;
+
+            ViewBag.ResourceGroupID = new SelectList(resourceGroups, "ID", "Name", selectedResourceGroup);
         }
     }
 }
