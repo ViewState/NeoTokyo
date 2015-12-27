@@ -18,6 +18,27 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
+        <dt>
+            Assigned Staff
+        </dt>
+
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>
+                        Staff Name
+                    </th>
+                </tr>
+                @foreach (var item in Model.StaffResourceGroupLinks)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem=>item.Staff.FullName)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <p>

@@ -54,10 +54,8 @@
         <div class="form-group">
             @Html.Label("Resource Group", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*<div class="dropdown">*@
                     @Html.DropDownList("ResourceGroupID", (IEnumerable<SelectListItem>)ViewBag.ResourceGroups, "No Resource Group Specified", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ResourceGroupID, "", new { @class = "text-danger" })
-                @*</div>*@
             </div>
         </div>
 

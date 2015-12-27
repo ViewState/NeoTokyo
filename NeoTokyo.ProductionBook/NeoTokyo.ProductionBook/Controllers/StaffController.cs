@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Web.Mvc;
 using NeoTokyo.ProductionBook.DAL;
 using NeoTokyo.ProductionBook.Models;
 using NeoTokyo.ProductionBook.ViewModel;
+using PagedList;
 
 namespace NeoTokyo.ProductionBook.Controllers
 {
@@ -14,10 +16,65 @@ namespace NeoTokyo.ProductionBook.Controllers
         private ProductionBookContext db = new ProductionBookContext();
 
         // GET: Staff
-        public ActionResult Index()
+        public ActionResult Index(String sortOrder, String searchNameString, String searchResourceGroupString, String currentNameFilter, String currentResourceGroupFilter, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.LastNameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.ResourceGroupNameSortParm = sortOrder == "Group" ? "group_desc" : "Group";
+
+            if (searchNameString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchNameString = currentNameFilter;
+            }
+
+            ViewBag.CurrentNameFilter = searchNameString;
+
+            if (searchResourceGroupString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchResourceGroupString = currentResourceGroupFilter;
+            }
+
+            ViewBag.CurrentResourceGroupFilter = searchResourceGroupString;
+
             var staffs = db.Staffs.Include(s => s.StaffResourceGroupLink);
-            return View(staffs.ToList());
+
+            if (!String.IsNullOrEmpty(searchNameString))
+                staffs = staffs.Where(s => s.FirstName.Contains(searchNameString) || s.LastName.Contains(searchNameString));
+
+            if (!String.IsNullOrEmpty(searchResourceGroupString))
+                staffs = staffs.Where(r => r.StaffResourceGroupLink.ResourceGroup.Name.Contains(searchResourceGroupString));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    staffs = staffs.OrderBy(n => n.LastName);
+                    break;
+                case "Group":
+                    staffs = staffs.OrderBy(g => g.StaffResourceGroupLink.ResourceGroup.Name);
+                    break;
+                case "group_desc":
+                    staffs = staffs.OrderByDescending(g => g.StaffResourceGroupLink.ResourceGroup.Name);
+                    break;
+                default:
+                    staffs = staffs.OrderByDescending(n => n.LastName);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            ModelState.Remove("searchNameString");
+            ModelState.Remove("searchResourceGroupString");
+
+            return View(staffs.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Staff/Details/5
@@ -36,7 +93,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 FirstName = staff.FirstName,
                 MiddleName = staff.MiddleName,
                 LastName = staff.LastName,
-                ResourceGroupID = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroupID : (Guid?)null,
+                ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
             };
 
@@ -61,33 +118,41 @@ namespace NeoTokyo.ProductionBook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroupViewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Staff staff = new Staff
+                if (ModelState.IsValid)
                 {
-                    Active = staffResourceGroupViewModel.Active,
-                    FirstName = staffResourceGroupViewModel.FirstName,
-                    MiddleName = staffResourceGroupViewModel.MiddleName,
-                    LastName = staffResourceGroupViewModel.LastName,
-                };
-
-                db.Staffs.Add(staff);
-
-                if(staffResourceGroupViewModel.ResourceGroupID.HasValue)
-                {
-                    StaffResourceGroupLink link = new StaffResourceGroupLink
+                    Staff staff = new Staff
                     {
-                        ResourceGroupID = staffResourceGroupViewModel.ResourceGroupID.Value,
-                        StaffID = staff.ID,
+                        Active = staffResourceGroupViewModel.Active,
+                        FirstName = staffResourceGroupViewModel.FirstName,
+                        MiddleName = staffResourceGroupViewModel.MiddleName,
+                        LastName = staffResourceGroupViewModel.LastName,
                     };
-                    db.StaffResourceGroupLinks.Add(link);
+
+                    db.Staffs.Add(staff);
+
+                    if (staffResourceGroupViewModel.ResourceGroupID.HasValue)
+                    {
+                        StaffResourceGroupLink link = new StaffResourceGroupLink
+                        {
+                            ResourceGroupID = staffResourceGroupViewModel.ResourceGroupID.Value,
+                            StaffID = staff.ID,
+                        };
+                        db.StaffResourceGroupLinks.Add(link);
+                    }
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
                 }
-                db.SaveChanges();
 
-                return RedirectToAction("Index");
+                ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staffResourceGroupViewModel.ID);
             }
-
-            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staffResourceGroupViewModel.ID);
+            catch (DataException /*dex*/)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
             return View(staffResourceGroupViewModel);
         }
 
@@ -106,7 +171,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 FirstName = staff.FirstName,
                 MiddleName = staff.MiddleName,
                 LastName = staff.LastName,
-                ResourceGroupID = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroupID : (Guid?)null,
+                ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
             };
 
@@ -115,7 +180,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 return HttpNotFound();
             }
 
-            if(staff.StaffResourceGroupLink != null)
+            if (staff.StaffResourceGroupLink != null)
             {
                 PopulateResourceGroupDropDown(staff.StaffResourceGroupLink.ResourceGroupID);
             }
@@ -133,38 +198,46 @@ namespace NeoTokyo.ProductionBook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroup)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Staff staff = new Staff
+                if (ModelState.IsValid)
                 {
-                    ID = staffResourceGroup.ID,
-                    Active = staffResourceGroup.Active,
-                    FirstName = staffResourceGroup.FirstName,
-                    MiddleName = staffResourceGroup.MiddleName,
-                    LastName = staffResourceGroup.LastName,
-                };
-                db.Entry(staff).State = EntityState.Modified;
-
-                StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(staffResourceGroup.ID);
-
-                if(link != null)
-                {
-                    db.StaffResourceGroupLinks.Remove(link);
-                }
-
-                if(staffResourceGroup.ResourceGroupID.HasValue)
-                {
-                    StaffResourceGroupLink newLink = new StaffResourceGroupLink
+                    Staff staff = new Staff
                     {
-                        ResourceGroupID = staffResourceGroup.ResourceGroupID.Value,
-                        StaffID = staffResourceGroup.ID,
+                        ID = staffResourceGroup.ID,
+                        Active = staffResourceGroup.Active,
+                        FirstName = staffResourceGroup.FirstName,
+                        MiddleName = staffResourceGroup.MiddleName,
+                        LastName = staffResourceGroup.LastName,
                     };
-                    db.StaffResourceGroupLinks.Add(newLink);
+                    db.Entry(staff).State = EntityState.Modified;
+
+                    StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(staffResourceGroup.ID);
+
+                    if (link != null)
+                    {
+                        db.StaffResourceGroupLinks.Remove(link);
+                    }
+
+                    if (staffResourceGroup.ResourceGroupID.HasValue)
+                    {
+                        StaffResourceGroupLink newLink = new StaffResourceGroupLink
+                        {
+                            ResourceGroupID = staffResourceGroup.ResourceGroupID.Value,
+                            StaffID = staffResourceGroup.ID,
+                        };
+                        db.StaffResourceGroupLinks.Add(newLink);
+                    }
+
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
                 }
-
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
+            }
+            catch (DataException /*dex*/)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
             if (staffResourceGroup.ResourceGroupID.HasValue)
@@ -180,10 +253,13 @@ namespace NeoTokyo.ProductionBook.Controllers
         }
 
         // GET: Staff/Delete/5
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid? id, Boolean? saveChangesError = false)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            if (saveChangesError.GetValueOrDefault())
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
 
             Staff staff = db.Staffs.Find(id);
 
@@ -194,20 +270,27 @@ namespace NeoTokyo.ProductionBook.Controllers
         }
 
         // POST: Staff/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult Delete(Guid id)
         {
-            Staff staff = db.Staffs.Find(id);
+            try
+            {
+                Staff staff = db.Staffs.Find(id);
 
-            db.Staffs.Remove(staff);
-            StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(id);
+                db.Staffs.Remove(staff);
+                StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(id);
 
-            if (link != null)
-                db.StaffResourceGroupLinks.Remove(link);
+                if (link != null)
+                    db.StaffResourceGroupLinks.Remove(link);
 
-            db.SaveChanges();
-
+                db.SaveChanges();
+            }
+            catch (DataException /*dex*/)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                RedirectToAction("Delete", new {id, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 
