@@ -95,16 +95,35 @@ namespace NeoTokyo.ProductionBook.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Staff staff = db.Staffs.Find(id);
+
+            StaffResourceGroupViewModel staffResourceGroup = new StaffResourceGroupViewModel
+            {
+                Active = staff.Active,
+                ID = staff.ID,
+                FirstName = staff.FirstName,
+                MiddleName = staff.MiddleName,
+                LastName = staff.LastName,
+                ResourceGroupID = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroupID : (Guid?)null,
+                ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
+            };
+
             if (staff == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staff.ID);
-            return View(staff);
+
+            if(staff.StaffResourceGroupLink != null)
+            {
+                PopulateResourceGroupDropDown(staff.StaffResourceGroupLink.ResourceGroupID);
+            }
+            else
+            {
+                PopulateResourceGroupDropDown();
+            }
+            return View(staffResourceGroup);
         }
 
         // POST: Staff/Edit/5
@@ -112,30 +131,65 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Active")] Staff staff)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroup)
         {
             if (ModelState.IsValid)
             {
+                Staff staff = new Staff
+                {
+                    ID = staffResourceGroup.ID,
+                    Active = staffResourceGroup.Active,
+                    FirstName = staffResourceGroup.FirstName,
+                    MiddleName = staffResourceGroup.MiddleName,
+                    LastName = staffResourceGroup.LastName,
+                };
                 db.Entry(staff).State = EntityState.Modified;
+
+                StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(staffResourceGroup.ID);
+
+                if(link != null)
+                {
+                    db.StaffResourceGroupLinks.Remove(link);
+                }
+
+                if(staffResourceGroup.ResourceGroupID.HasValue)
+                {
+                    StaffResourceGroupLink newLink = new StaffResourceGroupLink
+                    {
+                        ResourceGroupID = staffResourceGroup.ResourceGroupID.Value,
+                        StaffID = staffResourceGroup.ID,
+                    };
+                    db.StaffResourceGroupLinks.Add(newLink);
+                }
+
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staff.ID);
-            return View(staff);
+
+            if (staffResourceGroup.ResourceGroupID.HasValue)
+            {
+                PopulateResourceGroupDropDown(staffResourceGroup.ResourceGroupID.Value);
+            }
+            else
+            {
+                PopulateResourceGroupDropDown();
+            }
+
+            return View(staffResourceGroup);
         }
 
         // GET: Staff/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Staff staff = db.Staffs.Find(id);
+
             if (staff == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(staff);
         }
 
@@ -145,8 +199,15 @@ namespace NeoTokyo.ProductionBook.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             Staff staff = db.Staffs.Find(id);
+
             db.Staffs.Remove(staff);
+            StaffResourceGroupLink link = db.StaffResourceGroupLinks.Find(id);
+
+            if (link != null)
+                db.StaffResourceGroupLinks.Remove(link);
+
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

@@ -44,6 +44,13 @@
             @Html.DisplayFor(model => model.Active)
         </dd>
 
+        <dt>
+            Resource Group
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StaffResourceGroupLink.ResourceGroup.Name)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
