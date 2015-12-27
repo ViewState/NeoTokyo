@@ -224,7 +224,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         {
             var resourceGroups = from r in db.ResourceGroups orderby r.Name select r;
 
-            ViewBag.ResourceGroupID = new SelectList(resourceGroups, "ID", "Name", selectedResourceGroup);
+            ViewBag.ResourceGroups = new SelectList(resourceGroups, "ID", "Name", selectedResourceGroup);
         }
     }
 }
