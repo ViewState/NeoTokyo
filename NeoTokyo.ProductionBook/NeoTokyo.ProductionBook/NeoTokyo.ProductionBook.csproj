@@ -194,8 +194,13 @@
     <Compile Include="Migrations\201512281835447_InitialCreate.Designer.cs">
       <DependentUpon>201512281835447_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512281932274_AddDesignerEntity.cs" />
+    <Compile Include="Migrations\201512281932274_AddDesignerEntity.Designer.cs">
+      <DependentUpon>201512281932274_AddDesignerEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Designer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
@@ -286,6 +291,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512281835447_InitialCreate.resx">
       <DependentUpon>201512281835447_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512281932274_AddDesignerEntity.resx">
+      <DependentUpon>201512281932274_AddDesignerEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

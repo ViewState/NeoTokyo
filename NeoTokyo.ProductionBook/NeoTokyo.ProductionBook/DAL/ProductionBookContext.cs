@@ -12,12 +12,15 @@ namespace NeoTokyo.ProductionBook.DAL
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<StaffResourceGroupLink> StaffResourceGroupLinks { get; set; }
         public DbSet<ResourceGroup> ResourceGroups { get; set; }
+        public DbSet<Designer> Designers { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<StaffResourceGroupLink>().HasKey(s => s.StaffID);
+            modelBuilder.Entity<Designer>().HasKey(s => s.StaffID);
             modelBuilder.Entity<Staff>().HasOptional(staff => staff.StaffResourceGroupLink).WithRequired(link => link.Staff);
+            modelBuilder.Entity<Staff>().HasOptional(staff => staff.Designer).WithRequired(link => link.Staff);
         }
     }
 }

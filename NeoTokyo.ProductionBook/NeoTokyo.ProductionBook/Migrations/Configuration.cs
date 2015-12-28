@@ -40,6 +40,24 @@ namespace NeoTokyo.ProductionBook.Migrations
             staffResourceGroupLinks.ForEach(link => context.StaffResourceGroupLinks.AddOrUpdate(s=>s.StaffID, link));
 
             context.SaveChanges();
+
+            Staff designerStaff = new Staff
+            {
+                FirstName = "John",
+                MiddleName = "David",
+                LastName = "Prowse",
+                Active = true
+            };
+
+            context.Staffs.AddOrUpdate(s=> new {s.FirstName, s.LastName}, designerStaff);
+
+            context.SaveChanges();
+
+            Designer designer = new Designer {StaffID = designerStaff.ID, Active = true};
+
+            context.Designers.AddOrUpdate(d=>d.StaffID, designer);
+
+            context.SaveChanges();
         }
     }
 }

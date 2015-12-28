@@ -22,5 +22,6 @@ namespace NeoTokyo.ProductionBook.Models
             $"{FirstName}{(String.IsNullOrEmpty(MiddleName) ? " " : $" {MiddleName} ")}{LastName}";
 
         public virtual StaffResourceGroupLink StaffResourceGroupLink { get; set; }
+        public virtual Designer Designer { get; set; }
     }
 }
