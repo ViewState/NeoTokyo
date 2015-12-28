@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -96,11 +96,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
             };
-
-            if (staff == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(staffResourceGroup);
         }
 
@@ -148,7 +144,7 @@ namespace NeoTokyo.ProductionBook.Controllers
 
                 ViewBag.ID = new SelectList(db.StaffResourceGroupLinks, "StaffID", "StaffID", staffResourceGroupViewModel.ID);
             }
-            catch (DataException /*dex*/)
+            catch (RetryLimitExceededException /*dex*/)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
@@ -174,12 +170,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
             };
-
-            if (staff == null)
-            {
-                return HttpNotFound();
-            }
-
+            
             if (staff.StaffResourceGroupLink != null)
             {
                 PopulateResourceGroupDropDown(staff.StaffResourceGroupLink.ResourceGroupID);
@@ -234,7 +225,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (DataException /*dex*/)
+            catch (RetryLimitExceededException /*dex*/)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
@@ -286,7 +277,7 @@ namespace NeoTokyo.ProductionBook.Controllers
 
                 db.SaveChanges();
             }
-            catch (DataException /*dex*/)
+            catch (RetryLimitExceededException /*dex*/)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 RedirectToAction("Delete", new {id, saveChangesError = true });
