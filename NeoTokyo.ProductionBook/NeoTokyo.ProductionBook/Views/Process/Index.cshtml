@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<NeoTokyo.ProductionBook.Models.Process>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Processes</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Process", FormMethod.Get))
+{
+    <p>
+        <table>
+            <tr>
+                <th>
+                    Find by Name
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as String, new {@class = "form-control"})
+                </td>
+                <td>
+                    <input type="submit" value="Search" class="btn btn-default"/>
+                </td>
+            </tr>
+        </table>
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name","Index", new {sortOrder = ViewBag.ProcessNameSortParm, currentFilter = ViewBag.CurrentFilter})
+        </th>
+        <th>
+            Is an Overnight Process
+        </th>
+        <th>
+            Completed Status Text
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsOvernightProcess)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompletedStatusText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

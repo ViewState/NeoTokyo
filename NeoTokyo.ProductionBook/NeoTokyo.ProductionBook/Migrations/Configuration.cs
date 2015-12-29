@@ -15,6 +15,12 @@ namespace NeoTokyo.ProductionBook.Migrations
 
         protected override void Seed(DAL.ProductionBookContext context)
         {
+            var process = new Process { Name = "Preparation", CompletedStatusText = "Prepared", IsOvernightProcess = false };
+
+            context.Processes.AddOrUpdate(n => n.Name, process);
+
+            context.SaveChanges();
+
             var department = new Department { Active = true, Name = "Large Winding" };
 
             context.Departments.AddOrUpdate(n => n.Name, department);
@@ -24,7 +30,7 @@ namespace NeoTokyo.ProductionBook.Migrations
             var resourceGroup =
                 new ResourceGroup { Name = "Small Winding", DepartmentID = department.ID };
 
-            context.ResourceGroups.AddOrUpdate(n=>n.Name, resourceGroup);
+            context.ResourceGroups.AddOrUpdate(n => n.Name, resourceGroup);
 
             context.SaveChanges();
 
@@ -35,7 +41,7 @@ namespace NeoTokyo.ProductionBook.Migrations
                 new Staff {FirstName = "Mackenzie", MiddleName = String.Empty, LastName = "Johnson", Active = true},
             };
 
-            staffs.ForEach(staff => context.Staffs.AddOrUpdate(s=> new { s.FirstName, s.LastName}, staff));
+            staffs.ForEach(staff => context.Staffs.AddOrUpdate(s => new { s.FirstName, s.LastName }, staff));
 
             context.SaveChanges();
 
@@ -43,7 +49,7 @@ namespace NeoTokyo.ProductionBook.Migrations
 
             staffs.ForEach(staff => staffResourceGroupLinks.Add(new StaffResourceGroupLink { ResourceGroupID = resourceGroup.ID, StaffID = staff.ID }));
 
-            staffResourceGroupLinks.ForEach(link => context.StaffResourceGroupLinks.AddOrUpdate(s=>s.StaffID, link));
+            staffResourceGroupLinks.ForEach(link => context.StaffResourceGroupLinks.AddOrUpdate(s => s.StaffID, link));
 
             context.SaveChanges();
 
@@ -55,13 +61,13 @@ namespace NeoTokyo.ProductionBook.Migrations
                 Active = true
             };
 
-            context.Staffs.AddOrUpdate(s=> new {s.FirstName, s.LastName}, designerStaff);
+            context.Staffs.AddOrUpdate(s => new { s.FirstName, s.LastName }, designerStaff);
 
             context.SaveChanges();
 
-            Designer designer = new Designer {StaffID = designerStaff.ID, Active = true};
+            Designer designer = new Designer { StaffID = designerStaff.ID, Active = true };
 
-            context.Designers.AddOrUpdate(d=>d.StaffID, designer);
+            context.Designers.AddOrUpdate(d => d.StaffID, designer);
 
             context.SaveChanges();
         }

@@ -14,7 +14,7 @@ namespace NeoTokyo.ProductionBook.DAL
         public DbSet<ResourceGroup> ResourceGroups { get; set; }
         public DbSet<Designer> Designers { get; set; } 
         public DbSet<Department> Departments { get; set; }
-
+        public DbSet<Process> Processes { get; set; } 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

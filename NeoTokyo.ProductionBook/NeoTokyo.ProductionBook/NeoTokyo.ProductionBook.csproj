@@ -179,6 +179,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ResourceGroupController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="DAL\ProductionBookConfiguration.cs" />
@@ -203,12 +204,17 @@
     <Compile Include="Migrations\201512290957176_AddDepartmentEntity.Designer.cs">
       <DependentUpon>201512290957176_AddDepartmentEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512291334147_AddProcessEntity.cs" />
+    <Compile Include="Migrations\201512291334147_AddProcessEntity.Designer.cs">
+      <DependentUpon>201512291334147_AddProcessEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Designer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Process.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\StaffResourceGroupLink.cs" />
@@ -287,6 +293,11 @@
     <Content Include="Views\Department\Details.cshtml" />
     <Content Include="Views\Department\Edit.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Process\Create.cshtml" />
+    <Content Include="Views\Process\Delete.cshtml" />
+    <Content Include="Views\Process\Details.cshtml" />
+    <Content Include="Views\Process\Edit.cshtml" />
+    <Content Include="Views\Process\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -308,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512290957176_AddDepartmentEntity.resx">
       <DependentUpon>201512290957176_AddDepartmentEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512291334147_AddProcessEntity.resx">
+      <DependentUpon>201512291334147_AddProcessEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
