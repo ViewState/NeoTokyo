@@ -11,7 +11,9 @@ namespace NeoTokyo.ProductionBook.Models
         public Guid ID { get; set; }
         [Display(Name = "Resource Group")]
         public String Name { get; set; }
+        public Guid DepartmentID { get; set; }
 
         public virtual ICollection<StaffResourceGroupLink> StaffResourceGroupLinks { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

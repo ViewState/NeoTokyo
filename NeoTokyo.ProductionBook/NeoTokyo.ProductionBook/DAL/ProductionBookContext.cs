@@ -13,6 +13,7 @@ namespace NeoTokyo.ProductionBook.DAL
         public DbSet<StaffResourceGroupLink> StaffResourceGroupLinks { get; set; }
         public DbSet<ResourceGroup> ResourceGroups { get; set; }
         public DbSet<Designer> Designers { get; set; } 
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

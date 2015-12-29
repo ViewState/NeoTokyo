@@ -15,8 +15,14 @@ namespace NeoTokyo.ProductionBook.Migrations
 
         protected override void Seed(DAL.ProductionBookContext context)
         {
+            var department = new Department { Active = true, Name = "Large Winding" };
+
+            context.Departments.AddOrUpdate(n => n.Name, department);
+
+            context.SaveChanges();
+
             var resourceGroup =
-                new ResourceGroup { Name = "Small Winding" };
+                new ResourceGroup { Name = "Small Winding", DepartmentID = department.ID };
 
             context.ResourceGroups.AddOrUpdate(n=>n.Name, resourceGroup);
 
