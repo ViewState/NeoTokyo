@@ -208,8 +208,15 @@
     <Compile Include="Migrations\201512291334147_AddProcessEntity.Designer.cs">
       <DependentUpon>201512291334147_AddProcessEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512291631570_AddAddressCountryContactMethodEntities.cs" />
+    <Compile Include="Migrations\201512291631570_AddAddressCountryContactMethodEntities.Designer.cs">
+      <DependentUpon>201512291631570_AddAddressCountryContactMethodEntities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\ContactMethod.cs" />
+    <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Designer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -322,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512291334147_AddProcessEntity.resx">
       <DependentUpon>201512291334147_AddProcessEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512291631570_AddAddressCountryContactMethodEntities.resx">
+      <DependentUpon>201512291631570_AddAddressCountryContactMethodEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
