@@ -19,6 +19,13 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
+        <dt>
+            Department
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

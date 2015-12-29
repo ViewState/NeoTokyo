@@ -18,7 +18,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         public ActionResult Index(String sortOrder, String searchString, String currentFilter, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.ResourceGroupNameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.ResourceGroupDepartmentSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             if (searchString != null)
             {
@@ -39,10 +39,10 @@ namespace NeoTokyo.ProductionBook.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    resourceGroups = resourceGroups.OrderBy(n => n.Name);
+                    resourceGroups = resourceGroups.OrderBy(n => n.Department.Name);
                     break;
                 default:
-                    resourceGroups = resourceGroups.OrderByDescending(n => n.Name);
+                    resourceGroups = resourceGroups.OrderByDescending(n => n.Department.Name);
                     break;
             }
 
@@ -71,6 +71,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // GET: ResourceGroup/Create
         public ActionResult Create()
         {
+            PopulateDepartmentDropDownList();
             return View();
         }
 
@@ -79,7 +80,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name")] ResourceGroup resourceGroup)
+        public ActionResult Create([Bind(Include = "Name, DepartmentID")] ResourceGroup resourceGroup)
         {
             try
             {
@@ -109,6 +110,7 @@ namespace NeoTokyo.ProductionBook.Controllers
             if (resourceGroup == null)
                 return HttpNotFound();
 
+            PopulateDepartmentDropDownList(resourceGroup.DepartmentID);
             return View(resourceGroup);
         }
 
@@ -117,7 +119,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name")] ResourceGroup resourceGroup)
+        public ActionResult Edit([Bind(Include = "ID, Name, DepartmentID")] ResourceGroup resourceGroup)
         {
             try
             {
@@ -180,6 +182,13 @@ namespace NeoTokyo.ProductionBook.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void PopulateDepartmentDropDownList(object selectedDepartment = null)
+        {
+            var departments = from d in db.Departments orderby d.Name select d;
+
+            ViewBag.Departments = new SelectList(departments, "ID", "Name", selectedDepartment);
         }
     }
 }

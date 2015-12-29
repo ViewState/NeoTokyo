@@ -6,7 +6,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Resource Groups</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -35,7 +35,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Name", "Index", new {sortOrder = ViewBag.ResourceGroupNameSortParm, currentFilter = ViewBag.CurrentFilter})
+            Name
+        </th>
+        <th>            
+            @Html.ActionLink("Department", "Index", new { sortOrder = ViewBag.ResourceGroupDepartmentSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Assigned Staff Count
@@ -48,6 +51,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StaffResourceGroupLinks.Count)
