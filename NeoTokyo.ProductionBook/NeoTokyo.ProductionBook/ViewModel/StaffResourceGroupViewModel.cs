@@ -11,5 +11,6 @@ namespace NeoTokyo.ProductionBook.ViewModel
         public Boolean Active { get; set; }
         public Guid? ResourceGroupID { get; set; }
         public String ResourceGroupName { get; set; }
+        public Boolean IsDesigner { get; set; }
     }
 }

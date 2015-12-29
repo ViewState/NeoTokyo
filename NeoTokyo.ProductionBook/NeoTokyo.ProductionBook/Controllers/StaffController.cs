@@ -84,7 +84,7 @@ namespace NeoTokyo.ProductionBook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Staff staff = db.Staffs.Include(i => i.StaffResourceGroupLink).Include(a => a.StaffResourceGroupLink.ResourceGroup).Where(s => s.ID == id).Single();
+
             Staff staff = db.Staffs.Find(id);
             StaffResourceGroupViewModel staffResourceGroup = new StaffResourceGroupViewModel
             {
@@ -95,6 +95,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 LastName = staff.LastName,
                 ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
+                IsDesigner = staff.Designer != null ? staff.Designer.Active : false,
             };
             
             return View(staffResourceGroup);
@@ -112,7 +113,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroupViewModel)
+        public ActionResult Create([Bind(Include = "FirstName,MiddleName,LastName,Active, ResourceGroupID, IsDesigner")] StaffResourceGroupViewModel staffResourceGroupViewModel)
         {
             try
             {
@@ -136,6 +137,16 @@ namespace NeoTokyo.ProductionBook.Controllers
                             StaffID = staff.ID,
                         };
                         db.StaffResourceGroupLinks.Add(link);
+                    }
+
+                    if (staffResourceGroupViewModel.IsDesigner)
+                    {
+                        Designer designer = new Designer
+                        {
+                            StaffID = staff.ID,
+                            Active = true,
+                        };
+                        db.Designers.Add(designer);
                     }
                     db.SaveChanges();
 
@@ -169,6 +180,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                 LastName = staff.LastName,
                 ResourceGroupID = staff.StaffResourceGroupLink?.ResourceGroupID,
                 ResourceGroupName = staff.StaffResourceGroupLink != null ? staff.StaffResourceGroupLink.ResourceGroup.Name : String.Empty,
+                IsDesigner = staff.Designer != null ? staff.Designer.Active : false,
             };
             
             if (staff.StaffResourceGroupLink != null)
@@ -187,7 +199,7 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Active, ResourceGroupID")] StaffResourceGroupViewModel staffResourceGroup)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Active, ResourceGroupID, IsDesigner")] StaffResourceGroupViewModel staffResourceGroup)
         {
             try
             {
@@ -218,6 +230,15 @@ namespace NeoTokyo.ProductionBook.Controllers
                             StaffID = staffResourceGroup.ID,
                         };
                         db.StaffResourceGroupLinks.Add(newLink);
+                    }
+
+                    Designer designer = db.Designers.Find(staffResourceGroup.ID);
+
+                    if (designer != null)
+                    {
+                        designer.Active = staffResourceGroup.IsDesigner;
+
+                        db.Entry(designer).State = EntityState.Modified;
                     }
 
                     db.SaveChanges();

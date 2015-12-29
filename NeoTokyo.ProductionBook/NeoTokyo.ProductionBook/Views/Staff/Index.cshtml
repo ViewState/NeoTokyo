@@ -56,6 +56,9 @@
         <th>
             @Html.ActionLink("Resource Group", "Index", new {sortOrder = ViewBag.ResourceGroupNameSortParm, currentResourceGroupFilter = ViewBag.CurrentResourceGroupFilter})
         </th>
+        <th>
+            Designer
+        </th>
         <th></th>
     </tr>
 
@@ -76,6 +79,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StaffResourceGroupLink.ResourceGroup.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designer.Active)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new {id = item.ID}) |
