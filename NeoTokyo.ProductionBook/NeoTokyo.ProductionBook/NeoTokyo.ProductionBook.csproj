@@ -177,6 +177,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DesignController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
@@ -216,12 +217,17 @@
     <Compile Include="Migrations\201512301001539_ChangedDesignerStaffIDToID.Designer.cs">
       <DependentUpon>201512301001539_ChangedDesignerStaffIDToID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512301040204_AddedDesignEntity.cs" />
+    <Compile Include="Migrations\201512301040204_AddedDesignEntity.Designer.cs">
+      <DependentUpon>201512301040204_AddedDesignEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ContactMethod.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Design.cs" />
     <Compile Include="Models\Designer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -309,6 +315,11 @@
     <Content Include="Views\Process\Details.cshtml" />
     <Content Include="Views\Process\Edit.cshtml" />
     <Content Include="Views\Process\Index.cshtml" />
+    <Content Include="Views\Design\Create.cshtml" />
+    <Content Include="Views\Design\Delete.cshtml" />
+    <Content Include="Views\Design\Details.cshtml" />
+    <Content Include="Views\Design\Edit.cshtml" />
+    <Content Include="Views\Design\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512301001539_ChangedDesignerStaffIDToID.resx">
       <DependentUpon>201512301001539_ChangedDesignerStaffIDToID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512301040204_AddedDesignEntity.resx">
+      <DependentUpon>201512301040204_AddedDesignEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
