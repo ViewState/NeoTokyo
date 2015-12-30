@@ -65,9 +65,9 @@ namespace NeoTokyo.ProductionBook.Migrations
 
             context.SaveChanges();
 
-            Designer designer = new Designer { StaffID = designerStaff.ID, Active = true };
+            Designer designer = new Designer { ID = designerStaff.ID, Active = true };
 
-            context.Designers.AddOrUpdate(d => d.StaffID, designer);
+            context.Designers.AddOrUpdate(d => d.ID, designer);
 
             context.SaveChanges();
         }

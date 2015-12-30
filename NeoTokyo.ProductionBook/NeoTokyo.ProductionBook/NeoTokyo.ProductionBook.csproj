@@ -212,9 +212,9 @@
     <Compile Include="Migrations\201512291631570_AddAddressCountryContactMethodEntities.Designer.cs">
       <DependentUpon>201512291631570_AddAddressCountryContactMethodEntities.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512292239521_RollBackDatabaseToBeforeDesignEntityAdded.cs" />
-    <Compile Include="Migrations\201512292239521_RollBackDatabaseToBeforeDesignEntityAdded.Designer.cs">
-      <DependentUpon>201512292239521_RollBackDatabaseToBeforeDesignEntityAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201512301001539_ChangedDesignerStaffIDToID.cs" />
+    <Compile Include="Migrations\201512301001539_ChangedDesignerStaffIDToID.Designer.cs">
+      <DependentUpon>201512301001539_ChangedDesignerStaffIDToID.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -337,8 +337,8 @@
     <EmbeddedResource Include="Migrations\201512291631570_AddAddressCountryContactMethodEntities.resx">
       <DependentUpon>201512291631570_AddAddressCountryContactMethodEntities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512292239521_RollBackDatabaseToBeforeDesignEntityAdded.resx">
-      <DependentUpon>201512292239521_RollBackDatabaseToBeforeDesignEntityAdded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512301001539_ChangedDesignerStaffIDToID.resx">
+      <DependentUpon>201512301001539_ChangedDesignerStaffIDToID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

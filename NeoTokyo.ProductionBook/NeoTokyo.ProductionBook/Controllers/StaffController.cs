@@ -143,7 +143,7 @@ namespace NeoTokyo.ProductionBook.Controllers
                     {
                         Designer designer = new Designer
                         {
-                            StaffID = staff.ID,
+                            ID = staff.ID,
                             Active = true,
                         };
                         db.Designers.Add(designer);

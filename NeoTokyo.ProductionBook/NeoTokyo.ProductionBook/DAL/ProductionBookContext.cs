@@ -22,7 +22,7 @@ namespace NeoTokyo.ProductionBook.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<StaffResourceGroupLink>().HasKey(s => s.StaffID);
-            modelBuilder.Entity<Designer>().HasKey(s => s.StaffID);
+            modelBuilder.Entity<Designer>().HasKey(s => s.ID);
             modelBuilder.Entity<Staff>().HasOptional(staff => staff.StaffResourceGroupLink).WithRequired(link => link.Staff);
             modelBuilder.Entity<Staff>().HasOptional(staff => staff.Designer).WithRequired(link => link.Staff);
         }
