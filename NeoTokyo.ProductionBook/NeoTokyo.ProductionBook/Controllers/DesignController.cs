@@ -102,12 +102,13 @@ namespace NeoTokyo.ProductionBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DesignerID,Created,Active,DesignNumber")] Design design)
+        public ActionResult Create([Bind(Include = "DesignerID,Active,DesignNumber")] Design design)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    design.Created = DateTime.Now;
                     db.Designs.Add(design);
                     db.SaveChanges();
                     return RedirectToAction("Index");
