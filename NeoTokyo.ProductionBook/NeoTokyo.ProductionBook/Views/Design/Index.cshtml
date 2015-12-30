@@ -1,4 +1,6 @@
-﻿@model IEnumerable<NeoTokyo.ProductionBook.Models.Design>
+﻿@model PagedList.IPagedList<NeoTokyo.ProductionBook.Models.Design>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
 @{
     ViewBag.Title = "Index";
@@ -10,19 +12,46 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "Design", FormMethod.Get))
+{
+    <p>
+        <table>
+            <tr>
+                <th>
+                    Find by Design Number:
+                </th>
+                <th>
+                    Find by Designer:
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("searchDesignNumberString", "", new {@class = "form-control"})
+                </td>
+                <td>
+                    @Html.TextBox("searchDesignerString", "", new {@class = "form-control"})
+                </td>
+                <td>
+                    <input type="submit" value="Search" class="btn btn-default"/>
+                </td>
+            </tr>
+        </table>
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Designer.Staff.FullName)
+            @Html.ActionLink("Design Number", "Index", new {sortOrder = ViewBag.DesignNumberSortParm, currentDesignNumberFilter = ViewBag.CurrentDesignNumberFilter})
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Created)
+            Date Created
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Active)
+            Active
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DesignNumber)
+            @Html.ActionLink("Designer", "Index", new {sortOrder = ViewBag.DesignerSortParm, currentDesignerFilter = ViewBag.CurrentDesignerFilter})
         </th>
         <th></th>
     </tr>
@@ -30,7 +59,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Designer.Staff.FullName)
+            @Html.DisplayFor(modelItem => item.DesignNumber)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Created)
@@ -39,7 +68,7 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DesignNumber)
+            @Html.DisplayFor(modelItem => item.Designer.Staff.FullName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
@@ -50,3 +79,8 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentNameFilter = ViewBag.CurrentNameFilter, currentResourceGroupFilter = ViewBag.CurrentResourceGroupFilter }))
+
+
