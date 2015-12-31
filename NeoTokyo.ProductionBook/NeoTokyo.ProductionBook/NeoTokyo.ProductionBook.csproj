@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201512301040204_AddedDesignEntity.Designer.cs">
       <DependentUpon>201512301040204_AddedDesignEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512310150587_AddDesignProcessEntity.cs" />
+    <Compile Include="Migrations\201512310150587_AddDesignProcessEntity.Designer.cs">
+      <DependentUpon>201512310150587_AddDesignProcessEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -229,6 +233,7 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Design.cs" />
     <Compile Include="Models\Designer.cs" />
+    <Compile Include="Models\DesignProcess.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Process.cs" />
@@ -353,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512301040204_AddedDesignEntity.resx">
       <DependentUpon>201512301040204_AddedDesignEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512310150587_AddDesignProcessEntity.resx">
+      <DependentUpon>201512310150587_AddDesignProcessEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

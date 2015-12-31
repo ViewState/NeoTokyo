@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,7 @@ namespace NeoTokyo.ProductionBook.Models
         public Boolean IsOvernightProcess { get; set; }
         [Display(Name = "Completed Status Text")]
         public String CompletedStatusText { get; set; }
+
+        public virtual ICollection<DesignProcess> DesignProcesses { get; set; }
     }
 }

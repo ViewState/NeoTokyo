@@ -19,6 +19,7 @@ namespace NeoTokyo.ProductionBook.DAL
         public DbSet<Country> Countries { get; set; }
         public DbSet<ContactMethod> ContactMethods { get; set; } 
         public DbSet<Design> Designs { get; set; }
+        public DbSet<DesignProcess> DesignProcesses { get; set; } 
          
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -10,6 +10,7 @@ namespace NeoTokyo.ProductionBook.Models
         public Guid ID { get; set; }
         public String Name { get; set; }
         public Boolean Active { get; set; }
-        public virtual ICollection<ResourceGroup> ResourceGroups { get; set; } 
+        public virtual ICollection<ResourceGroup> ResourceGroups { get; set; }
+        public virtual ICollection<DesignProcess> DesignProcesses { get; set; }
     }
 }
