@@ -70,6 +70,18 @@ namespace NeoTokyo.ProductionBook.Migrations
             context.Designers.AddOrUpdate(d => d.ID, designer);
 
             context.SaveChanges();
+
+            Design design = new Design
+            {
+                Active = true,
+                Created = DateTime.Now,
+                DesignNumber = "Design1",
+                DesignerID = designer.ID,
+            };
+
+            context.Designs.AddOrUpdate(n=>n.DesignNumber, design);
+
+            context.SaveChanges();
         }
     }
 }

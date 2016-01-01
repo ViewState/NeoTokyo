@@ -16,74 +16,42 @@
         <hr />
         @Html.HiddenFor(model => model.ID)
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.DesignNumber)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.DesignNumber)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Active)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Active)
-            </dd>
-
-            <dt>
-                Designer
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Designer.Staff.FullName)
-            </dd>
-
+            <dt>@Html.DisplayNameFor(model => model.DesignNumber)</dt>
+            <dd>@Html.DisplayFor(model => model.DesignNumber)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Created)</dt>
+            <dd>@Html.DisplayFor(model => model.Created)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Active)</dt>
+            <dd>@Html.DisplayFor(model => model.Active)</dd>
+            <dt>Designer</dt>
+            <dd>@Html.DisplayFor(model => model.Designer.Staff.FullName)</dd>
         </dl>
-        <h4>Processes</h4>
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new {id = Model.ID}) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+        <br />
         @if (Model.DesignProcesses.Any())
         {
+            <h4>Processes</h4>
 
             <table class="table">
                 <tr>
-                    <th>
-                        Process Name
-                    </th>
-                    <th>
-                        Department Name
-                    </th>
-                    <th>
-                        Process Time
-                    </th>
-                    <th>
-                        Process Order
-                    </th>
+                    <th>Process Name</th>
+                    <th>Department Name</th>
+                    <th>Process Time</th>
+                    <th>Process Order</th>
+                    <th></th>
                 </tr>
 
                 @foreach (var designProcess in Model.DesignProcesses)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => designProcess.Process.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => designProcess.Department.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => designProcess.ProcessTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => designProcess.ProcessOrder)
-                        </td>
+                        <td>@Html.DisplayFor(modelItem => designProcess.Process.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => designProcess.Department.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => designProcess.ProcessTime)</td>
+                        <td>@Html.DisplayFor(modelItem => designProcess.ProcessOrder)</td>
                     </tr>
                 }
 
@@ -95,40 +63,21 @@
 
         <table>
             <tr>
-                <th>
-                    Process
-                </th>
-                <th>
-                    Department
-                </th>
-                <th>
-                    Process Time
-                </th>
+                <th>Process</th>
+                <th>Department</th>
+                <th>Process Time</th>
                 <th></th>
             </tr>
             <tr>
-                <td>
-                    @Html.DropDownList("ProcessID", (IEnumerable<SelectListItem>)ViewBag.Processes, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().ProcessID, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.DropDownList("DepartmentID", (IEnumerable<SelectListItem>)ViewBag.Departments, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().DepartmentID, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    @Html.TextBox("ProcessTime", "", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().ProcessTime, "", new { @class = "text-danger" })
-                </td>
-                <td>
-                    <input type="submit" class="btn btn-default" value="Add" />
-                </td>
+                <td>@Html.DropDownList("ProcessID", (IEnumerable<SelectListItem>)ViewBag.Processes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().ProcessID, "", new { @class = "text-danger" })</td>
+                <td>@Html.DropDownList("DepartmentID", (IEnumerable<SelectListItem>)ViewBag.Departments, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().DepartmentID, "", new { @class = "text-danger" })</td>
+                <td>@Html.TextBox("ProcessTime", "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DesignProcesses.FirstOrDefault().ProcessTime, "", new { @class = "text-danger" })</td>
+                <td><input type="submit" class="btn btn-default" value="Add" /></td>
             </tr>
         </table>
     </div>
 
 }
-<br/>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
