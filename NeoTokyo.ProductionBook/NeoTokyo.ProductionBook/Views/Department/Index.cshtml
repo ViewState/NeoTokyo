@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Departments</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -36,7 +36,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Department", "Index", new {sortOrder = ViewBag.DepartmentNameSortParm, currentFilter = ViewBag.CurrentFilter})
+            @Html.ActionLink("Department Name", "Index", new {sortOrder = ViewBag.DepartmentNameSortParm, currentFilter = ViewBag.CurrentFilter})
         </th>
         <th>
             Active

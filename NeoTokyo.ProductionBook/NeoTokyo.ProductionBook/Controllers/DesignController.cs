@@ -3,9 +3,11 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Web.Mvc;
 using NeoTokyo.ProductionBook.DAL;
 using NeoTokyo.ProductionBook.Models;
+using NeoTokyo.ProductionBook.ViewModel;
 using PagedList;
 
 namespace NeoTokyo.ProductionBook.Controllers
@@ -86,7 +88,27 @@ namespace NeoTokyo.ProductionBook.Controllers
 
             if (design == null)
                 return HttpNotFound();
+            
+            PopulateDepartmentsDropDown();
+            PopulateProcessesDropDown();
+            return View(design);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(Guid id, [Bind(Include = "ProcessID, DepartmentID, ProcessTime") ]DesignProcess designProcess)
+        {
+            var design = db.Designs.Find(id);
+            var designProcesses = db.DesignProcesses.Where(d => d.DesignID == id).OrderBy(i => i.ProcessOrder);
+            designProcess.DesignID = id;
+            designProcess.ProcessOrder = designProcesses.Count() + 1;
+
+            db.DesignProcesses.Add(designProcess);
+
+            db.SaveChanges();
+
+            PopulateDepartmentsDropDown();
+            PopulateProcessesDropDown();
             return View(design);
         }
 
@@ -212,5 +234,25 @@ namespace NeoTokyo.ProductionBook.Controllers
 
             ViewBag.Designers = new SelectList(designers, "ID", "FullName", selectedDesigner);
         }
+
+        private void PopulateProcessesDropDown(object selectedProcess = null)
+        {
+            var processes = from p in db.Processes orderby p.Name select p;
+
+            ViewBag.Processes = new SelectList(processes, "ID", "Name", selectedProcess);
+        }
+
+        private void PopulateDepartmentsDropDown(object selectedDepartment = null)
+        {
+            var departments = from d in db.Departments orderby d.Name select d;
+
+            ViewBag.Departments = new SelectList(departments, "ID", "Name", selectedDepartment);
+        }
+    }
+
+    public enum ChangeProcessOrder
+    {
+        Up,
+        Down,
     }
 }
