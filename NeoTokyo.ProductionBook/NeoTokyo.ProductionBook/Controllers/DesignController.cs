@@ -257,6 +257,61 @@ namespace NeoTokyo.ProductionBook.Controllers
 
             return RedirectToAction("Details", new {id = designProcess.DesignID});
         }
+
+        public ActionResult MoveDesignProcessUp(Guid id)
+        {
+            DesignProcess selectedDesignProcess = db.DesignProcesses.Find(id);
+
+            if (selectedDesignProcess.ProcessOrder > 1)
+            {
+
+                DesignProcess aboveDesignProcess =
+                    db.DesignProcesses.Single(
+                        i =>
+                        (i.DesignID == selectedDesignProcess.DesignID)
+                        &&
+                        (i.ProcessOrder == selectedDesignProcess.ProcessOrder - 1));
+
+                selectedDesignProcess.ProcessOrder = aboveDesignProcess.ProcessOrder;
+
+                aboveDesignProcess.ProcessOrder++;
+
+                db.Entry(selectedDesignProcess).State = EntityState.Modified;
+                db.Entry(aboveDesignProcess).State = EntityState.Modified;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new {id = selectedDesignProcess.DesignID});
+        }
+
+        public ActionResult MoveDesignProcessDown(Guid id)
+        {
+            DesignProcess selectedDesignProcess = db.DesignProcesses.Find(id);
+
+            var designProcesses = db.DesignProcesses.Where(i => i.DesignID == selectedDesignProcess.DesignID);
+
+            if (selectedDesignProcess.ProcessOrder < designProcesses.Count())
+            {
+                DesignProcess belowDesignProcess =
+                    db.DesignProcesses.Single(
+                        i =>
+                        (i.DesignID == selectedDesignProcess.DesignID)
+                        &&
+                        (i.ProcessOrder == selectedDesignProcess.ProcessOrder + 1));
+
+                selectedDesignProcess.ProcessOrder = belowDesignProcess.ProcessOrder;
+
+                belowDesignProcess.ProcessOrder--;
+
+                db.Entry(selectedDesignProcess).State = EntityState.Modified;
+                db.Entry(belowDesignProcess).State = EntityState.Modified;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new { id = selectedDesignProcess.DesignID });
+        }
     }
 
     public enum ChangeProcessOrder
