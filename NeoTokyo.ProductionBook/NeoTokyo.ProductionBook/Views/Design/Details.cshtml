@@ -45,7 +45,7 @@
                     <th></th>
                 </tr>
 
-                @foreach (var designProcess in Model.DesignProcesses)
+                @foreach (var designProcess in Model.DesignProcesses.OrderBy(i=>i.ProcessOrder))
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => designProcess.Process.Name)</td>

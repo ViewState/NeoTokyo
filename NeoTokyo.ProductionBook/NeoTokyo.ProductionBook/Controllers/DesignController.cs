@@ -98,7 +98,6 @@ namespace NeoTokyo.ProductionBook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Details(Guid id, [Bind(Include = "ProcessID, DepartmentID, ProcessTime") ]DesignProcess designProcess)
         {
-            var design = db.Designs.Find(id);
             var designProcesses = db.DesignProcesses.Where(d => d.DesignID == id).OrderBy(i => i.ProcessOrder);
             designProcess.DesignID = id;
             designProcess.ProcessOrder = designProcesses.Count() + 1;
@@ -106,6 +105,12 @@ namespace NeoTokyo.ProductionBook.Controllers
             db.DesignProcesses.Add(designProcess);
 
             db.SaveChanges();
+
+            var design = db.Designs
+                .Include(i => i.DesignProcesses)
+                .Include(i => i.DesignProcesses.Select(c => c.Department))
+                .Include(i => i.DesignProcesses.Select(c => c.Process))
+                .Single(i => i.ID == id);
 
             PopulateDepartmentsDropDown();
             PopulateProcessesDropDown();
