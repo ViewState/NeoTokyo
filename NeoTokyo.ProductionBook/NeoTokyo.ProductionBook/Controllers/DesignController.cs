@@ -3,11 +3,9 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Web.Mvc;
 using NeoTokyo.ProductionBook.DAL;
 using NeoTokyo.ProductionBook.Models;
-using NeoTokyo.ProductionBook.ViewModel;
 using PagedList;
 
 namespace NeoTokyo.ProductionBook.Controllers
@@ -84,7 +82,11 @@ namespace NeoTokyo.ProductionBook.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Design design = db.Designs.Find(id);
+            Design design =
+                db.Designs.Include(i => i.DesignProcesses)
+                    .Include(i => i.DesignProcesses.Select(c => c.Department))
+                    .Include(i => i.DesignProcesses.Select(c => c.Process))
+                    .Single(i => i.ID == id);
 
             if (design == null)
                 return HttpNotFound();
@@ -93,30 +95,7 @@ namespace NeoTokyo.ProductionBook.Controllers
             PopulateProcessesDropDown();
             return View(design);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Details(Guid id, [Bind(Include = "ProcessID, DepartmentID, ProcessTime") ]DesignProcess designProcess)
-        {
-            var designProcesses = db.DesignProcesses.Where(d => d.DesignID == id).OrderBy(i => i.ProcessOrder);
-            designProcess.DesignID = id;
-            designProcess.ProcessOrder = designProcesses.Count() + 1;
-
-            db.DesignProcesses.Add(designProcess);
-
-            db.SaveChanges();
-
-            var design = db.Designs
-                .Include(i => i.DesignProcesses)
-                .Include(i => i.DesignProcesses.Select(c => c.Department))
-                .Include(i => i.DesignProcesses.Select(c => c.Process))
-                .Single(i => i.ID == id);
-
-            PopulateDepartmentsDropDown();
-            PopulateProcessesDropDown();
-            return View(design);
-        }
-
+        
         // GET: Design/Create
         public ActionResult Create()
         {
@@ -252,6 +231,31 @@ namespace NeoTokyo.ProductionBook.Controllers
             var departments = from d in db.Departments orderby d.Name select d;
 
             ViewBag.Departments = new SelectList(departments, "ID", "Name", selectedDepartment);
+        }
+
+        public ActionResult DeleteDesignProcess(Guid? id)
+        {
+            DesignProcess designProcess = db.DesignProcesses.Find(id);
+
+            db.DesignProcesses.Remove(designProcess);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = designProcess.DesignID});
+        }
+
+        public ActionResult AddDesignProcess(Guid id,[Bind(Include = "ProcessID, DepartmentID, ProcessTime")] DesignProcess designProcess)
+        {
+            var designProcesses = db.DesignProcesses.Where(i => i.DesignID == id);
+
+            designProcess.DesignID = id;
+            designProcess.ProcessOrder = designProcesses.Count() + 1;
+
+            db.DesignProcesses.Add(designProcess);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new {id = designProcess.DesignID});
         }
     }
 

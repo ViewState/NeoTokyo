@@ -1,0 +1,35 @@
+﻿@model List<NeoTokyo.ProductionBook.Models.DesignProcess>
+
+@if (Model.Any())
+{
+    <br />
+    <h4>Processes</h4>
+
+    <table class="table">
+        <tr>
+            <th>Process Name</th>
+            <th>Department Name</th>
+            <th>Process Time</th>
+            <th>Process Order</th>
+            <th></th>
+        </tr>
+
+        @foreach (var designProcess in Model.OrderBy(i => i.ProcessOrder))
+                {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => designProcess.Process.Name)</td>
+                <td>@Html.DisplayFor(modelItem => designProcess.Department.Name)</td>
+                <td>@Html.DisplayFor(modelItem => designProcess.ProcessTime)</td>
+                <td>@Html.DisplayFor(modelItem => designProcess.ProcessOrder)</td>
+                <td>
+                    @using (Html.BeginForm("DeleteDesignProcess", "Design", new { id = designProcess.ID }, FormMethod.Post))
+                    {
+                        <input type="submit" name="Delete" value="Delete" class="btn btn-default"/>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+}
