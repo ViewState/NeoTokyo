@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,6 @@ namespace NeoTokyo.ProductionBook.Models
         public Boolean Active { get; set; }
 
         public virtual Country Country { get; set; }
+        public virtual ICollection<CustomerAddressLink> CustomerAddressLinks { get; set; } 
     }
 }

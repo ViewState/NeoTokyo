@@ -184,6 +184,7 @@
     <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ResourceGroupController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="CustomEnumTypes\AddressType.cs" />
     <Compile Include="DAL\ProductionBookConfiguration.cs" />
     <Compile Include="DAL\ProductionBookContext.cs" />
     <Compile Include="DAL\ProductionBookInitializer.cs" />
@@ -230,12 +231,21 @@
     <Compile Include="Migrations\201601030046033_AddCustomerEntity.Designer.cs">
       <DependentUpon>201601030046033_AddCustomerEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601031428150_AddCustomerAddressLink.cs" />
+    <Compile Include="Migrations\201601031428150_AddCustomerAddressLink.Designer.cs">
+      <DependentUpon>201601031428150_AddCustomerAddressLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601031433011_AddNavigationToCustomerAndAddress.cs" />
+    <Compile Include="Migrations\201601031433011_AddNavigationToCustomerAndAddress.Designer.cs">
+      <DependentUpon>201601031433011_AddNavigationToCustomerAndAddress.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ContactMethod.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerAddressLink.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Design.cs" />
     <Compile Include="Models\Designer.cs" />
@@ -377,6 +387,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601030046033_AddCustomerEntity.resx">
       <DependentUpon>201601030046033_AddCustomerEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601031428150_AddCustomerAddressLink.resx">
+      <DependentUpon>201601031428150_AddCustomerAddressLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601031433011_AddNavigationToCustomerAndAddress.resx">
+      <DependentUpon>201601031433011_AddNavigationToCustomerAndAddress.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
