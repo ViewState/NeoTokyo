@@ -1,0 +1,40 @@
+﻿@using NeoTokyo.ProductionBook.CustomEnumTypes
+@model List<NeoTokyo.ProductionBook.Models.CustomerAddressLink>
+
+<h4>Addresses</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Address.AddressName)
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Address Type
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.OrderBy(i => i.Address.AddressName))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.AddressName)
+            </td>
+            <td>
+                @{
+                    String address = $"{item.Address.AddressLine1}, {item.Address.AddressLine2}, {item.Address.County}";
+                    @Html.DisplayText(address)
+                }
+            </td>
+            <td>
+                @{
+                    String addressType = ((AddressType)item.AddressTypeInt).ToString();
+                    @Html.DisplayText(addressType)
+                }
+            </td>
+            <td></td>
+        </tr>
+                    }
+</table>

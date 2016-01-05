@@ -20,8 +20,13 @@
         </dd>
 
     </dl>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new {id = Model.ID}) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    <div>
+        @Html.Partial("_CustomerAddressLinks", Model.CustomerAddressLinks.ToList())
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
