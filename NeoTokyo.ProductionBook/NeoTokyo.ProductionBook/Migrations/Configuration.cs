@@ -11,6 +11,7 @@ namespace NeoTokyo.ProductionBook.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(DAL.ProductionBookContext context)

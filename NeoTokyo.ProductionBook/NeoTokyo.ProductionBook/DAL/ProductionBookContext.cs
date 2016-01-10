@@ -22,6 +22,8 @@ namespace NeoTokyo.ProductionBook.DAL
         public DbSet<DesignProcess> DesignProcesses { get; set; } 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerAddressLink> CustomerAddressLinks { get; set; } 
+        public DbSet<CustomerDefaultDeliveryAddress> CustomerDefaultDeliveryAddresses { get; set; } 
+        public DbSet<CustomerDefaultInvoiceAddress> CustomerDefaultInvoiceAddresses { get; set; } 
          
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

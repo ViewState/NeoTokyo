@@ -1,4 +1,5 @@
-﻿@model NeoTokyo.ProductionBook.Models.Customer
+﻿@using NeoTokyo.ProductionBook.ViewModel
+@model NeoTokyo.ProductionBook.Models.Customer
 
 @{
     ViewBag.Title = "Details";
@@ -26,7 +27,22 @@
         @Html.ActionLink("Back to List", "Index")
     </p>
 
+    <a class="btn btn-default" data-toggle="modal" data-target=".bootstrapmodal">Add New Address</a>
+
+    <div class="modal fade bootstrapmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">@Html.Partial("_AddCustomerAddress", new CustomerAddressViewModel {ID = Model.ID})</div>
+        </div>
+    </div>
+
     <div>
-        @Html.Partial("_CustomerAddressLinks", Model.CustomerAddressLinks.ToList())
+        @{
+            var list = new List<CustomerAddressLinkViewModel>();
+        }
+        @foreach (var item in Model.CustomerAddressLinks)
+        {
+            list.Add(new CustomerAddressLinkViewModel {CustomerAddressLink = item, IsDefaultDeliveryAddress = item.Address.CustomerDefaultDeliveryAddresses.Any(), IsDefaultInvoiceAddress = item.Address.CustomerDefaultInvoiceAddresses.Any() });
+        }
+        @Html.Partial("_CustomerAddressLinks", list)
     </div>
 </div>
