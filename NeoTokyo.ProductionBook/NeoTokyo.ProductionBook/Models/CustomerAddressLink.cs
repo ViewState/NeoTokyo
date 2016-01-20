@@ -11,7 +11,6 @@ namespace NeoTokyo.ProductionBook.Models
         public Guid AddressID { get; set; }
         [ForeignKey("Customer")]
         public Guid CustomerID { get; set; }
-        public Int32 AddressTypeInt { get; set; }
         public Boolean Active { get; set; }
 
         public virtual Address Address { get; set; }

@@ -13,5 +13,7 @@ namespace NeoTokyo.ProductionBook.Models
         public String Name { get; set; }
 
         public virtual ICollection<CustomerAddressLink> CustomerAddressLinks  { get; set; }
+        public virtual CustomerDefaultDeliveryAddress CustomerDefaultDeliveryAddress { get; set; }
+        public virtual CustomerDefaultInvoiceAddress CustomerDefaultInvoiceAddress { get; set; }
     }
 }

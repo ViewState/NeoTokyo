@@ -22,6 +22,8 @@ namespace NeoTokyo.ProductionBook.Models
         public Boolean Active { get; set; }
 
         public virtual Country Country { get; set; }
-        public virtual ICollection<CustomerAddressLink> CustomerAddressLinks { get; set; } 
+        public virtual ICollection<CustomerAddressLink> CustomerAddressLinks { get; set; }
+        public virtual ICollection<CustomerDefaultDeliveryAddress> CustomerDefaultDeliveryAddresses { get; set; }
+        public virtual ICollection<CustomerDefaultInvoiceAddress> CustomerDefaultInvoiceAddresses { get; set; }
     }
 }

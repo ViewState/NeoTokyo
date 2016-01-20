@@ -1,40 +1,41 @@
 ﻿@using NeoTokyo.ProductionBook.CustomEnumTypes
-@model List<NeoTokyo.ProductionBook.Models.CustomerAddressLink>
+@model List<NeoTokyo.ProductionBook.ViewModel.CustomerAddressLinkViewModel>
 
 <h4>Addresses</h4>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Address.AddressName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CustomerAddressLink.Address.AddressName)
         </th>
         <th>
             Address
         </th>
         <th>
-            Address Type
+            Default Delivery
         </th>
-        <th></th>
+        <th>
+            Default Invoice
+        </th>
     </tr>
-    @foreach (var item in Model.OrderBy(i => i.Address.AddressName))
+    @foreach (var item in Model.OrderBy(i => i.CustomerAddressLink.Address.AddressName))
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Address.AddressName)
+                @Html.DisplayFor(modelItem => item.CustomerAddressLink.Address.AddressName)
             </td>
             <td>
                 @{
-                    String address = $"{item.Address.AddressLine1}, {item.Address.AddressLine2}, {item.Address.County}";
-                    @Html.DisplayText(address)
+                    String address = $"{item.CustomerAddressLink.Address.AddressLine1}, {item.CustomerAddressLink.Address.AddressLine2}, {item.CustomerAddressLink.Address.County}";
                 }
+                @address
+                @Html.DisplayText(address)
             </td>
             <td>
-                @{
-                    String addressType = ((AddressType)item.AddressTypeInt).ToString();
-                    @Html.DisplayText(addressType)
-                }
+                @Html.DisplayFor(modelItem=>item.IsDefaultDeliveryAddress)
             </td>
-            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDefaultInvoiceAddress)</td>
         </tr>
                     }
 </table>
