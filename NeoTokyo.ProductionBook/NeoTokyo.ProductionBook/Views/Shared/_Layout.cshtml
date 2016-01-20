@@ -6,6 +6,10 @@
     <title>@ViewBag.Title - NeoTokyo - Production Book</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+    <link rel="stylesheet" type="text/css" media="all"
+          href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
 
 </head>
 <body>
@@ -22,14 +26,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Resource Groups", "Index", "ResourceGroup")</li>
                     <li>@Html.ActionLink("Staff", "Index", "Staff")</li>
                     <li>@Html.ActionLink("Departments", "Index", "Department")</li>
                     <li>@Html.ActionLink("Processes", "Index", "Process")</li>
                     <li>@Html.ActionLink("Designs", "Index", "Design")</li>
-                    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Customers
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+                            <li>@Html.ActionLink("Customer Order Status", "Index", "CustomerOrderStatus")</li>
+                            <li>@Html.ActionLink("Customer Orders", "Index", "CustomerOrders")</li>
+                        </ul>
+                    </li>
+
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

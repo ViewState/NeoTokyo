@@ -1,0 +1,83 @@
+﻿@model NeoTokyo.ProductionBook.Models.CustomerOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerOrderStatus.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerOrderStatus.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerPONumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerPONumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+    </dl>
+
+    <h5>Status History</h5>
+
+    <table class="table">
+        <tr>
+            <th>
+                Date Created
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+
+        @foreach (var item in Model.CustomerOrderStatusHistorys)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerOrderStatus.Status)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
