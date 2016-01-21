@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201601132337288_CustomerOrder.Designer.cs">
       <DependentUpon>201601132337288_CustomerOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601202216403_UnknownModelChange.cs" />
+    <Compile Include="Migrations\201601202216403_UnknownModelChange.Designer.cs">
+      <DependentUpon>201601202216403_UnknownModelChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -488,6 +492,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601101319359_AddDefaultAddressEntities.resx">
       <DependentUpon>201601101319359_AddDefaultAddressEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601202216403_UnknownModelChange.resx">
+      <DependentUpon>201601202216403_UnknownModelChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

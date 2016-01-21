@@ -37,6 +37,6 @@ namespace NeoTokyo.ProductionBook.DAL
             modelBuilder.Entity<Staff>().HasOptional(staff => staff.Designer).WithRequired(link => link.Staff);
         }
 
-        public System.Data.Entity.DbSet<NeoTokyo.ProductionBook.Models.CustomerOrderStatusHistory> CustomerOrderStatusHistories { get; set; }
+        public DbSet<CustomerOrderStatusHistory> CustomerOrderStatusHistories { get; set; }
     }
 }
