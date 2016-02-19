@@ -1,0 +1,2307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProcessSchedulerDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AddressName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AddressLine1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AddressLine2" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Town" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="County" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CountryID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Allocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitProcessID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResourceGroupID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EstimatedStartDate" Type="datetime" Nullable="false" />
+          <Property Name="EstimatedEndDate" Type="datetime" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ContactMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContactTypeID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContactMethodName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ContactMethodDetails" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="DefaultDeliveryAddressID" Type="uniqueidentifier" />
+          <Property Name="DefaultInvoiceAddressID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="CustomerAddressLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AddressID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerContactMethodLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContactMethodID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerPONumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerOrderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DesignID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="PricePerUnit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLineStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLineStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerOrderLineStatusID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="CustomerOrderLineID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrderStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrderStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerOrderStatusID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="CustomerOrderID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Design">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DesignerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="DesignNumber" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Designer">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DesignProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DesignID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProcessID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DepartmentID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProcessTime" Type="int" Nullable="false" />
+          <Property Name="ProcessOrder" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsOverNightProcess" Type="bit" Nullable="false" />
+          <Property Name="CompletedStatusText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DepartmentID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaffResourceGroupLink">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResourceGroupID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorksOrderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitID" Type="uniqueidentifier" />
+          <Property Name="DesignProcessID" Type="uniqueidentifier" />
+          <Property Name="ScheduleDate" Type="datetime" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UnitProcessStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitProcessStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitProcessID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitProcessStatusID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UnitStatusID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorksOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorksOrderNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DesignID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="CustomerOrderLineID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="ScheduleDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WorksOrderStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorksOrderStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorksOrderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorksOrderStatusID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Allocation_ResourceGroup">
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="1" />
+          <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Allocation">
+              <PropertyRef Name="ResourceGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Allocation_UnitProcess">
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="1" />
+          <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Allocation">
+              <PropertyRef Name="UnitProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactMethod_ContactType">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
+          <End Role="ContactMethod" Type="Self.ContactMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactMethod">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="DefaultDeliveryAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address1">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="DefaultInvoiceAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressLink_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="CustomerAddressLink" Type="Self.CustomerAddressLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerAddressLink">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressLink_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerAddressLink" Type="Self.CustomerAddressLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerAddressLink">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerContactMethodLink_ContactMethod">
+          <End Role="ContactMethod" Type="Self.ContactMethod" Multiplicity="1" />
+          <End Role="CustomerContactMethodLink" Type="Self.CustomerContactMethodLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerContactMethodLink">
+              <PropertyRef Name="ContactMethodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerContactMethodLink_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerContactMethodLink" Type="Self.CustomerContactMethodLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerContactMethodLink">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrder_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLine_CustomerOrder">
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="1" />
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLine">
+              <PropertyRef Name="CustomerOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLine_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLine">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLine">
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="1" />
+          <End Role="CustomerOrderLineStatusHistory" Type="Self.CustomerOrderLineStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderLine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLineStatusHistory">
+              <PropertyRef Name="CustomerOrderLineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus">
+          <End Role="CustomerOrderLineStatus" Type="Self.CustomerOrderLineStatus" Multiplicity="1" />
+          <End Role="CustomerOrderLineStatusHistory" Type="Self.CustomerOrderLineStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderLineStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLineStatusHistory">
+              <PropertyRef Name="CustomerOrderLineStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderStatusHistory_CustomerOrder">
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="1" />
+          <End Role="CustomerOrderStatusHistory" Type="Self.CustomerOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderStatusHistory">
+              <PropertyRef Name="CustomerOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderStatusHistory_CustomerOrderStatus">
+          <End Role="CustomerOrderStatus" Type="Self.CustomerOrderStatus" Multiplicity="1" />
+          <End Role="CustomerOrderStatusHistory" Type="Self.CustomerOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderStatusHistory">
+              <PropertyRef Name="CustomerOrderStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Design_Designer">
+          <End Role="Designer" Type="Self.Designer" Multiplicity="1" />
+          <End Role="Design" Type="Self.Design" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designer">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Design">
+              <PropertyRef Name="DesignerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Process">
+          <End Role="Process" Type="Self.Process" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="ProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceGroup_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResourceGroup">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Designer">
+          <End Role="Designer" Type="Self.Designer" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Designer">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_StaffResourceGroupLink">
+          <End Role="StaffResourceGroupLink" Type="Self.StaffResourceGroupLink" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="StaffResourceGroupLink">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffResourceGroupLink_ResourceGroup">
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="1" />
+          <End Role="StaffResourceGroupLink" Type="Self.StaffResourceGroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StaffResourceGroupLink">
+              <PropertyRef Name="ResourceGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Unit_WorksOrder">
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="1" />
+          <End Role="Unit" Type="Self.Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="WorksOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcess_DesignProcess">
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="0..1" />
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DesignProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcess">
+              <PropertyRef Name="DesignProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcess_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcess">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcessStatusHistory_UnitProcess">
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="1" />
+          <End Role="UnitProcessStatusHistory" Type="Self.UnitProcessStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcessStatusHistory">
+              <PropertyRef Name="UnitProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcessStatusHistory_UnitProcessStatus">
+          <End Role="UnitProcessStatus" Type="Self.UnitProcessStatus" Multiplicity="1" />
+          <End Role="UnitProcessStatusHistory" Type="Self.UnitProcessStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcessStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcessStatusHistory">
+              <PropertyRef Name="UnitProcessStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitStatusHistory_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
+          <End Role="UnitStatusHistory" Type="Self.UnitStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitStatusHistory">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitStatusHistory_UnitStatus">
+          <End Role="UnitStatus" Type="Self.UnitStatus" Multiplicity="1" />
+          <End Role="UnitStatusHistory" Type="Self.UnitStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitStatusHistory">
+              <PropertyRef Name="UnitStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrder_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrder">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrderStatusHistory_WorksOrder">
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="1" />
+          <End Role="WorksOrderStatusHistory" Type="Self.WorksOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrderStatusHistory">
+              <PropertyRef Name="WorksOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrderStatusHistory_WorksOrderStatus">
+          <End Role="WorksOrderStatus" Type="Self.WorksOrderStatus" Multiplicity="1" />
+          <End Role="WorksOrderStatusHistory" Type="Self.WorksOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrderStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrderStatusHistory">
+              <PropertyRef Name="WorksOrderStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProcessSchedulerDbModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Allocation" EntityType="Self.Allocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactMethod" EntityType="Self.ContactMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAddressLink" EntityType="Self.CustomerAddressLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerContactMethodLink" EntityType="Self.CustomerContactMethodLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrder" EntityType="Self.CustomerOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderLine" EntityType="Self.CustomerOrderLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderLineStatus" EntityType="Self.CustomerOrderLineStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderLineStatusHistory" EntityType="Self.CustomerOrderLineStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderStatus" EntityType="Self.CustomerOrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrderStatusHistory" EntityType="Self.CustomerOrderStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Design" EntityType="Self.Design" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Designer" EntityType="Self.Designer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DesignProcess" EntityType="Self.DesignProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceGroup" EntityType="Self.ResourceGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffResourceGroupLink" EntityType="Self.StaffResourceGroupLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitProcess" EntityType="Self.UnitProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitProcessStatus" EntityType="Self.UnitProcessStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitProcessStatusHistory" EntityType="Self.UnitProcessStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitStatus" EntityType="Self.UnitStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitStatusHistory" EntityType="Self.UnitStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorksOrder" EntityType="Self.WorksOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorksOrderStatus" EntityType="Self.WorksOrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorksOrderStatusHistory" EntityType="Self.WorksOrderStatusHistory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Allocation_ResourceGroup" Association="Self.FK_Allocation_ResourceGroup">
+            <End Role="ResourceGroup" EntitySet="ResourceGroup" />
+            <End Role="Allocation" EntitySet="Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Allocation_UnitProcess" Association="Self.FK_Allocation_UnitProcess">
+            <End Role="UnitProcess" EntitySet="UnitProcess" />
+            <End Role="Allocation" EntitySet="Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactMethod_ContactType" Association="Self.FK_ContactMethod_ContactType">
+            <End Role="ContactType" EntitySet="ContactType" />
+            <End Role="ContactMethod" EntitySet="ContactMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address" Association="Self.FK_Customer_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address1" Association="Self.FK_Customer_Address1">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressLink_Address" Association="Self.FK_CustomerAddressLink_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="CustomerAddressLink" EntitySet="CustomerAddressLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressLink_Customer" Association="Self.FK_CustomerAddressLink_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerAddressLink" EntitySet="CustomerAddressLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerContactMethodLink_ContactMethod" Association="Self.FK_CustomerContactMethodLink_ContactMethod">
+            <End Role="ContactMethod" EntitySet="ContactMethod" />
+            <End Role="CustomerContactMethodLink" EntitySet="CustomerContactMethodLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerContactMethodLink_Customer" Association="Self.FK_CustomerContactMethodLink_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerContactMethodLink" EntitySet="CustomerContactMethodLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrder_Customer" Association="Self.FK_CustomerOrder_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLine_CustomerOrder" Association="Self.FK_CustomerOrderLine_CustomerOrder">
+            <End Role="CustomerOrder" EntitySet="CustomerOrder" />
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLine_Design" Association="Self.FK_CustomerOrderLine_Design">
+            <End Role="Design" EntitySet="Design" />
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLine" Association="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLine">
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLine" />
+            <End Role="CustomerOrderLineStatusHistory" EntitySet="CustomerOrderLineStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus" Association="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus">
+            <End Role="CustomerOrderLineStatus" EntitySet="CustomerOrderLineStatus" />
+            <End Role="CustomerOrderLineStatusHistory" EntitySet="CustomerOrderLineStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderStatusHistory_CustomerOrder" Association="Self.FK_CustomerOrderStatusHistory_CustomerOrder">
+            <End Role="CustomerOrder" EntitySet="CustomerOrder" />
+            <End Role="CustomerOrderStatusHistory" EntitySet="CustomerOrderStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderStatusHistory_CustomerOrderStatus" Association="Self.FK_CustomerOrderStatusHistory_CustomerOrderStatus">
+            <End Role="CustomerOrderStatus" EntitySet="CustomerOrderStatus" />
+            <End Role="CustomerOrderStatusHistory" EntitySet="CustomerOrderStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Design_Designer" Association="Self.FK_Design_Designer">
+            <End Role="Designer" EntitySet="Designer" />
+            <End Role="Design" EntitySet="Design" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Department" Association="Self.FK_DesignProcess_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DesignProcess" EntitySet="DesignProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Design" Association="Self.FK_DesignProcess_Design">
+            <End Role="Design" EntitySet="Design" />
+            <End Role="DesignProcess" EntitySet="DesignProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Process" Association="Self.FK_DesignProcess_Process">
+            <End Role="Process" EntitySet="Process" />
+            <End Role="DesignProcess" EntitySet="DesignProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceGroup_Department" Association="Self.FK_ResourceGroup_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="ResourceGroup" EntitySet="ResourceGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Designer" Association="Self.FK_Staff_Designer">
+            <End Role="Designer" EntitySet="Designer" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_StaffResourceGroupLink" Association="Self.FK_Staff_StaffResourceGroupLink">
+            <End Role="StaffResourceGroupLink" EntitySet="StaffResourceGroupLink" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffResourceGroupLink_ResourceGroup" Association="Self.FK_StaffResourceGroupLink_ResourceGroup">
+            <End Role="ResourceGroup" EntitySet="ResourceGroup" />
+            <End Role="StaffResourceGroupLink" EntitySet="StaffResourceGroupLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Unit_WorksOrder" Association="Self.FK_Unit_WorksOrder">
+            <End Role="WorksOrder" EntitySet="WorksOrder" />
+            <End Role="Unit" EntitySet="Unit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcess_DesignProcess" Association="Self.FK_UnitProcess_DesignProcess">
+            <End Role="DesignProcess" EntitySet="DesignProcess" />
+            <End Role="UnitProcess" EntitySet="UnitProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcess_Unit" Association="Self.FK_UnitProcess_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="UnitProcess" EntitySet="UnitProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcessStatusHistory_UnitProcess" Association="Self.FK_UnitProcessStatusHistory_UnitProcess">
+            <End Role="UnitProcess" EntitySet="UnitProcess" />
+            <End Role="UnitProcessStatusHistory" EntitySet="UnitProcessStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcessStatusHistory_UnitProcessStatus" Association="Self.FK_UnitProcessStatusHistory_UnitProcessStatus">
+            <End Role="UnitProcessStatus" EntitySet="UnitProcessStatus" />
+            <End Role="UnitProcessStatusHistory" EntitySet="UnitProcessStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitStatusHistory_Unit" Association="Self.FK_UnitStatusHistory_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="UnitStatusHistory" EntitySet="UnitStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitStatusHistory_UnitStatus" Association="Self.FK_UnitStatusHistory_UnitStatus">
+            <End Role="UnitStatus" EntitySet="UnitStatus" />
+            <End Role="UnitStatusHistory" EntitySet="UnitStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrder_Design" Association="Self.FK_WorksOrder_Design">
+            <End Role="Design" EntitySet="Design" />
+            <End Role="WorksOrder" EntitySet="WorksOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrderStatusHistory_WorksOrder" Association="Self.FK_WorksOrderStatusHistory_WorksOrder">
+            <End Role="WorksOrder" EntitySet="WorksOrder" />
+            <End Role="WorksOrderStatusHistory" EntitySet="WorksOrderStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrderStatusHistory_WorksOrderStatus" Association="Self.FK_WorksOrderStatusHistory_WorksOrderStatus">
+            <End Role="WorksOrderStatus" EntitySet="WorksOrderStatus" />
+            <End Role="WorksOrderStatusHistory" EntitySet="WorksOrderStatusHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProcessSchedulerDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="AddressName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressLine1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Town" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="County" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryID" Type="Guid" Nullable="false" />
+          <Property Name="PostCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Address_Country" FromRole="Address" ToRole="Country" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
+          <NavigationProperty Name="Customers1" Relationship="Self.FK_Customer_Address1" FromRole="Address" ToRole="Customer" />
+          <NavigationProperty Name="CustomerAddressLinks" Relationship="Self.FK_CustomerAddressLink_Address" FromRole="Address" ToRole="CustomerAddressLink" />
+        </EntityType>
+        <EntityType Name="Allocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UnitProcessID" Type="Guid" Nullable="false" />
+          <Property Name="ResourceGroupID" Type="Guid" Nullable="false" />
+          <Property Name="EstimatedStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstimatedEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ResourceGroup" Relationship="Self.FK_Allocation_ResourceGroup" FromRole="Allocation" ToRole="ResourceGroup" />
+          <NavigationProperty Name="UnitProcess" Relationship="Self.FK_Allocation_UnitProcess" FromRole="Allocation" ToRole="UnitProcess" />
+        </EntityType>
+        <EntityType Name="ContactMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ContactTypeID" Type="Guid" Nullable="false" />
+          <Property Name="ContactMethodName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactMethodDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ContactType" Relationship="Self.FK_ContactMethod_ContactType" FromRole="ContactMethod" ToRole="ContactType" />
+          <NavigationProperty Name="CustomerContactMethodLinks" Relationship="Self.FK_CustomerContactMethodLink_ContactMethod" FromRole="ContactMethod" ToRole="CustomerContactMethodLink" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ContactMethods" Relationship="Self.FK_ContactMethod_ContactType" FromRole="ContactType" ToRole="ContactMethod" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Addresses" Relationship="Self.FK_Address_Country" FromRole="Country" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultDeliveryAddressID" Type="Guid" />
+          <Property Name="DefaultInvoiceAddressID" Type="Guid" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
+          <NavigationProperty Name="Address1" Relationship="Self.FK_Customer_Address1" FromRole="Customer" ToRole="Address" />
+          <NavigationProperty Name="CustomerAddressLinks" Relationship="Self.FK_CustomerAddressLink_Customer" FromRole="Customer" ToRole="CustomerAddressLink" />
+          <NavigationProperty Name="CustomerContactMethodLinks" Relationship="Self.FK_CustomerContactMethodLink_Customer" FromRole="Customer" ToRole="CustomerContactMethodLink" />
+          <NavigationProperty Name="CustomerOrders" Relationship="Self.FK_CustomerOrder_Customer" FromRole="Customer" ToRole="CustomerOrder" />
+        </EntityType>
+        <EntityType Name="CustomerAddressLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="AddressID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_CustomerAddressLink_Address" FromRole="CustomerAddressLink" ToRole="Address" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerAddressLink_Customer" FromRole="CustomerAddressLink" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="CustomerContactMethodLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerID" Type="Guid" Nullable="false" />
+          <Property Name="ContactMethodID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ContactMethod" Relationship="Self.FK_CustomerContactMethodLink_ContactMethod" FromRole="CustomerContactMethodLink" ToRole="ContactMethod" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerContactMethodLink_Customer" FromRole="CustomerContactMethodLink" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="CustomerOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerPONumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerOrder_Customer" FromRole="CustomerOrder" ToRole="Customer" />
+          <NavigationProperty Name="CustomerOrderLines" Relationship="Self.FK_CustomerOrderLine_CustomerOrder" FromRole="CustomerOrder" ToRole="CustomerOrderLine" />
+          <NavigationProperty Name="CustomerOrderStatusHistories" Relationship="Self.FK_CustomerOrderStatusHistory_CustomerOrder" FromRole="CustomerOrder" ToRole="CustomerOrderStatusHistory" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerOrderID" Type="Guid" Nullable="false" />
+          <Property Name="DesignID" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PricePerUnit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="CustomerOrder" Relationship="Self.FK_CustomerOrderLine_CustomerOrder" FromRole="CustomerOrderLine" ToRole="CustomerOrder" />
+          <NavigationProperty Name="Design" Relationship="Self.FK_CustomerOrderLine_Design" FromRole="CustomerOrderLine" ToRole="Design" />
+          <NavigationProperty Name="CustomerOrderLineStatusHistories" Relationship="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLine" FromRole="CustomerOrderLine" ToRole="CustomerOrderLineStatusHistory" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLineStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerOrderLineStatusHistories" Relationship="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus" FromRole="CustomerOrderLineStatus" ToRole="CustomerOrderLineStatusHistory" />
+        </EntityType>
+        <EntityType Name="CustomerOrderLineStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerOrderLineStatusID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerOrderLineID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="CustomerOrderLine" Relationship="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLine" FromRole="CustomerOrderLineStatusHistory" ToRole="CustomerOrderLine" />
+          <NavigationProperty Name="CustomerOrderLineStatu" Relationship="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus" FromRole="CustomerOrderLineStatusHistory" ToRole="CustomerOrderLineStatus" />
+        </EntityType>
+        <EntityType Name="CustomerOrderStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerOrderStatusHistories" Relationship="Self.FK_CustomerOrderStatusHistory_CustomerOrderStatus" FromRole="CustomerOrderStatus" ToRole="CustomerOrderStatusHistory" />
+        </EntityType>
+        <EntityType Name="CustomerOrderStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerOrderStatusID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerOrderID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="CustomerOrder" Relationship="Self.FK_CustomerOrderStatusHistory_CustomerOrder" FromRole="CustomerOrderStatusHistory" ToRole="CustomerOrder" />
+          <NavigationProperty Name="CustomerOrderStatu" Relationship="Self.FK_CustomerOrderStatusHistory_CustomerOrderStatus" FromRole="CustomerOrderStatusHistory" ToRole="CustomerOrderStatus" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="DesignProcesses" Relationship="Self.FK_DesignProcess_Department" FromRole="Department" ToRole="DesignProcess" />
+          <NavigationProperty Name="ResourceGroups" Relationship="Self.FK_ResourceGroup_Department" FromRole="Department" ToRole="ResourceGroup" />
+        </EntityType>
+        <EntityType Name="Design">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="DesignerID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DesignNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CustomerOrderLines" Relationship="Self.FK_CustomerOrderLine_Design" FromRole="Design" ToRole="CustomerOrderLine" />
+          <NavigationProperty Name="Designer" Relationship="Self.FK_Design_Designer" FromRole="Design" ToRole="Designer" />
+          <NavigationProperty Name="DesignProcesses" Relationship="Self.FK_DesignProcess_Design" FromRole="Design" ToRole="DesignProcess" />
+          <NavigationProperty Name="WorksOrders" Relationship="Self.FK_WorksOrder_Design" FromRole="Design" ToRole="WorksOrder" />
+        </EntityType>
+        <EntityType Name="Designer">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="Guid" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Designs" Relationship="Self.FK_Design_Designer" FromRole="Designer" ToRole="Design" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Staff_Designer" FromRole="Designer" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="DesignProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="DesignID" Type="Guid" Nullable="false" />
+          <Property Name="ProcessID" Type="Guid" Nullable="false" />
+          <Property Name="DepartmentID" Type="Guid" Nullable="false" />
+          <Property Name="ProcessTime" Type="Int32" Nullable="false" />
+          <Property Name="ProcessOrder" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_DesignProcess_Department" FromRole="DesignProcess" ToRole="Department" />
+          <NavigationProperty Name="Design" Relationship="Self.FK_DesignProcess_Design" FromRole="DesignProcess" ToRole="Design" />
+          <NavigationProperty Name="Process" Relationship="Self.FK_DesignProcess_Process" FromRole="DesignProcess" ToRole="Process" />
+          <NavigationProperty Name="UnitProcesses" Relationship="Self.FK_UnitProcess_DesignProcess" FromRole="DesignProcess" ToRole="UnitProcess" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsOverNightProcess" Type="Boolean" Nullable="false" />
+          <Property Name="CompletedStatusText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DesignProcesses" Relationship="Self.FK_DesignProcess_Process" FromRole="Process" ToRole="DesignProcess" />
+        </EntityType>
+        <EntityType Name="ResourceGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Allocations" Relationship="Self.FK_Allocation_ResourceGroup" FromRole="ResourceGroup" ToRole="Allocation" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_ResourceGroup_Department" FromRole="ResourceGroup" ToRole="Department" />
+          <NavigationProperty Name="StaffResourceGroupLinks" Relationship="Self.FK_StaffResourceGroupLink_ResourceGroup" FromRole="ResourceGroup" ToRole="StaffResourceGroupLink" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Designer" Relationship="Self.FK_Staff_Designer" FromRole="Staff" ToRole="Designer" />
+          <NavigationProperty Name="StaffResourceGroupLink" Relationship="Self.FK_Staff_StaffResourceGroupLink" FromRole="Staff" ToRole="StaffResourceGroupLink" />
+        </EntityType>
+        <EntityType Name="StaffResourceGroupLink">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="Guid" Nullable="false" />
+          <Property Name="ResourceGroupID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ResourceGroup" Relationship="Self.FK_StaffResourceGroupLink_ResourceGroup" FromRole="StaffResourceGroupLink" ToRole="ResourceGroup" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Staff_StaffResourceGroupLink" FromRole="StaffResourceGroupLink" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="WorksOrderID" Type="Guid" Nullable="false" />
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WorksOrder" Relationship="Self.FK_Unit_WorksOrder" FromRole="Unit" ToRole="WorksOrder" />
+          <NavigationProperty Name="UnitProcesses" Relationship="Self.FK_UnitProcess_Unit" FromRole="Unit" ToRole="UnitProcess" />
+          <NavigationProperty Name="UnitStatusHistories" Relationship="Self.FK_UnitStatusHistory_Unit" FromRole="Unit" ToRole="UnitStatusHistory" />
+        </EntityType>
+        <EntityType Name="UnitProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UnitID" Type="Guid" />
+          <Property Name="DesignProcessID" Type="Guid" />
+          <Property Name="ScheduleDate" Type="DateTime" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Allocations" Relationship="Self.FK_Allocation_UnitProcess" FromRole="UnitProcess" ToRole="Allocation" />
+          <NavigationProperty Name="DesignProcess" Relationship="Self.FK_UnitProcess_DesignProcess" FromRole="UnitProcess" ToRole="DesignProcess" />
+          <NavigationProperty Name="Unit" Relationship="Self.FK_UnitProcess_Unit" FromRole="UnitProcess" ToRole="Unit" />
+          <NavigationProperty Name="UnitProcessStatusHistories" Relationship="Self.FK_UnitProcessStatusHistory_UnitProcess" FromRole="UnitProcess" ToRole="UnitProcessStatusHistory" />
+        </EntityType>
+        <EntityType Name="UnitProcessStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UnitProcessStatusHistories" Relationship="Self.FK_UnitProcessStatusHistory_UnitProcessStatus" FromRole="UnitProcessStatus" ToRole="UnitProcessStatusHistory" />
+        </EntityType>
+        <EntityType Name="UnitProcessStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UnitProcessID" Type="Guid" Nullable="false" />
+          <Property Name="UnitProcessStatusID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UnitProcess" Relationship="Self.FK_UnitProcessStatusHistory_UnitProcess" FromRole="UnitProcessStatusHistory" ToRole="UnitProcess" />
+          <NavigationProperty Name="UnitProcessStatu" Relationship="Self.FK_UnitProcessStatusHistory_UnitProcessStatus" FromRole="UnitProcessStatusHistory" ToRole="UnitProcessStatus" />
+        </EntityType>
+        <EntityType Name="UnitStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UnitStatusHistories" Relationship="Self.FK_UnitStatusHistory_UnitStatus" FromRole="UnitStatus" ToRole="UnitStatusHistory" />
+        </EntityType>
+        <EntityType Name="UnitStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UnitID" Type="Guid" Nullable="false" />
+          <Property Name="UnitStatusID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Unit" Relationship="Self.FK_UnitStatusHistory_Unit" FromRole="UnitStatusHistory" ToRole="Unit" />
+          <NavigationProperty Name="UnitStatu" Relationship="Self.FK_UnitStatusHistory_UnitStatus" FromRole="UnitStatusHistory" ToRole="UnitStatus" />
+        </EntityType>
+        <EntityType Name="WorksOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="WorksOrderNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DesignID" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="CustomerOrderLineID" Type="Guid" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ScheduleDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Design" Relationship="Self.FK_WorksOrder_Design" FromRole="WorksOrder" ToRole="Design" />
+          <NavigationProperty Name="Units" Relationship="Self.FK_Unit_WorksOrder" FromRole="WorksOrder" ToRole="Unit" />
+          <NavigationProperty Name="WorksOrderStatusHistories" Relationship="Self.FK_WorksOrderStatusHistory_WorksOrder" FromRole="WorksOrder" ToRole="WorksOrderStatusHistory" />
+        </EntityType>
+        <EntityType Name="WorksOrderStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorksOrderStatusHistories" Relationship="Self.FK_WorksOrderStatusHistory_WorksOrderStatus" FromRole="WorksOrderStatus" ToRole="WorksOrderStatusHistory" />
+        </EntityType>
+        <EntityType Name="WorksOrderStatusHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="WorksOrderID" Type="Guid" Nullable="false" />
+          <Property Name="WorksOrderStatusID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WorksOrder" Relationship="Self.FK_WorksOrderStatusHistory_WorksOrder" FromRole="WorksOrderStatusHistory" ToRole="WorksOrder" />
+          <NavigationProperty Name="WorksOrderStatu" Relationship="Self.FK_WorksOrderStatusHistory_WorksOrderStatus" FromRole="WorksOrderStatusHistory" ToRole="WorksOrderStatus" />
+        </EntityType>
+        <Association Name="FK_Address_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="DefaultDeliveryAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address1">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="DefaultInvoiceAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressLink_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="CustomerAddressLink" Type="Self.CustomerAddressLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerAddressLink">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Allocation_ResourceGroup">
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="1" />
+          <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Allocation">
+              <PropertyRef Name="ResourceGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Allocation_UnitProcess">
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="1" />
+          <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Allocation">
+              <PropertyRef Name="UnitProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactMethod_ContactType">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
+          <End Role="ContactMethod" Type="Self.ContactMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactMethod">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerContactMethodLink_ContactMethod">
+          <End Role="ContactMethod" Type="Self.ContactMethod" Multiplicity="1" />
+          <End Role="CustomerContactMethodLink" Type="Self.CustomerContactMethodLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerContactMethodLink">
+              <PropertyRef Name="ContactMethodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressLink_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerAddressLink" Type="Self.CustomerAddressLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerAddressLink">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerContactMethodLink_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerContactMethodLink" Type="Self.CustomerContactMethodLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerContactMethodLink">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrder_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLine_CustomerOrder">
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="1" />
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLine">
+              <PropertyRef Name="CustomerOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderStatusHistory_CustomerOrder">
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="1" />
+          <End Role="CustomerOrderStatusHistory" Type="Self.CustomerOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderStatusHistory">
+              <PropertyRef Name="CustomerOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLine_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLine">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLine">
+          <End Role="CustomerOrderLine" Type="Self.CustomerOrderLine" Multiplicity="1" />
+          <End Role="CustomerOrderLineStatusHistory" Type="Self.CustomerOrderLineStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderLine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLineStatusHistory">
+              <PropertyRef Name="CustomerOrderLineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus">
+          <End Role="CustomerOrderLineStatus" Type="Self.CustomerOrderLineStatu" Multiplicity="1" />
+          <End Role="CustomerOrderLineStatusHistory" Type="Self.CustomerOrderLineStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderLineStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderLineStatusHistory">
+              <PropertyRef Name="CustomerOrderLineStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderStatusHistory_CustomerOrderStatus">
+          <End Role="CustomerOrderStatus" Type="Self.CustomerOrderStatu" Multiplicity="1" />
+          <End Role="CustomerOrderStatusHistory" Type="Self.CustomerOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerOrderStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerOrderStatusHistory">
+              <PropertyRef Name="CustomerOrderStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceGroup_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResourceGroup">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Design_Designer">
+          <End Role="Designer" Type="Self.Designer" Multiplicity="1" />
+          <End Role="Design" Type="Self.Design" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designer">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Design">
+              <PropertyRef Name="DesignerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrder_Design">
+          <End Role="Design" Type="Self.Design" Multiplicity="1" />
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Design">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrder">
+              <PropertyRef Name="DesignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_Designer">
+          <End Role="Designer" Type="Self.Designer" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Designer">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DesignProcess_Process">
+          <End Role="Process" Type="Self.Process" Multiplicity="1" />
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesignProcess">
+              <PropertyRef Name="ProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcess_DesignProcess">
+          <End Role="DesignProcess" Type="Self.DesignProcess" Multiplicity="0..1" />
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DesignProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcess">
+              <PropertyRef Name="DesignProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaffResourceGroupLink_ResourceGroup">
+          <End Role="ResourceGroup" Type="Self.ResourceGroup" Multiplicity="1" />
+          <End Role="StaffResourceGroupLink" Type="Self.StaffResourceGroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StaffResourceGroupLink">
+              <PropertyRef Name="ResourceGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_StaffResourceGroupLink">
+          <End Role="StaffResourceGroupLink" Type="Self.StaffResourceGroupLink" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="StaffResourceGroupLink">
+              <PropertyRef Name="StaffID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Unit_WorksOrder">
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="1" />
+          <End Role="Unit" Type="Self.Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="WorksOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcess_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcess">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitStatusHistory_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
+          <End Role="UnitStatusHistory" Type="Self.UnitStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitStatusHistory">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcessStatusHistory_UnitProcess">
+          <End Role="UnitProcess" Type="Self.UnitProcess" Multiplicity="1" />
+          <End Role="UnitProcessStatusHistory" Type="Self.UnitProcessStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcess">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcessStatusHistory">
+              <PropertyRef Name="UnitProcessID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitProcessStatusHistory_UnitProcessStatus">
+          <End Role="UnitProcessStatus" Type="Self.UnitProcessStatu" Multiplicity="1" />
+          <End Role="UnitProcessStatusHistory" Type="Self.UnitProcessStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProcessStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitProcessStatusHistory">
+              <PropertyRef Name="UnitProcessStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitStatusHistory_UnitStatus">
+          <End Role="UnitStatus" Type="Self.UnitStatu" Multiplicity="1" />
+          <End Role="UnitStatusHistory" Type="Self.UnitStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnitStatusHistory">
+              <PropertyRef Name="UnitStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrderStatusHistory_WorksOrder">
+          <End Role="WorksOrder" Type="Self.WorksOrder" Multiplicity="1" />
+          <End Role="WorksOrderStatusHistory" Type="Self.WorksOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrderStatusHistory">
+              <PropertyRef Name="WorksOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorksOrderStatusHistory_WorksOrderStatus">
+          <End Role="WorksOrderStatus" Type="Self.WorksOrderStatu" Multiplicity="1" />
+          <End Role="WorksOrderStatusHistory" Type="Self.WorksOrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorksOrderStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorksOrderStatusHistory">
+              <PropertyRef Name="WorksOrderStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProcessSchedulerDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="Allocations" EntityType="Self.Allocation" />
+          <EntitySet Name="ContactMethods" EntityType="Self.ContactMethod" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactType" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="CustomerAddressLinks" EntityType="Self.CustomerAddressLink" />
+          <EntitySet Name="CustomerContactMethodLinks" EntityType="Self.CustomerContactMethodLink" />
+          <EntitySet Name="CustomerOrders" EntityType="Self.CustomerOrder" />
+          <EntitySet Name="CustomerOrderLines" EntityType="Self.CustomerOrderLine" />
+          <EntitySet Name="CustomerOrderLineStatus" EntityType="Self.CustomerOrderLineStatu" />
+          <EntitySet Name="CustomerOrderLineStatusHistories" EntityType="Self.CustomerOrderLineStatusHistory" />
+          <EntitySet Name="CustomerOrderStatus" EntityType="Self.CustomerOrderStatu" />
+          <EntitySet Name="CustomerOrderStatusHistories" EntityType="Self.CustomerOrderStatusHistory" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Designs" EntityType="Self.Design" />
+          <EntitySet Name="Designers" EntityType="Self.Designer" />
+          <EntitySet Name="DesignProcesses" EntityType="Self.DesignProcess" />
+          <EntitySet Name="Processes" EntityType="Self.Process" />
+          <EntitySet Name="ResourceGroups" EntityType="Self.ResourceGroup" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="StaffResourceGroupLinks" EntityType="Self.StaffResourceGroupLink" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Units" EntityType="Self.Unit" />
+          <EntitySet Name="UnitProcesses" EntityType="Self.UnitProcess" />
+          <EntitySet Name="UnitProcessStatus" EntityType="Self.UnitProcessStatu" />
+          <EntitySet Name="UnitProcessStatusHistories" EntityType="Self.UnitProcessStatusHistory" />
+          <EntitySet Name="UnitStatus" EntityType="Self.UnitStatu" />
+          <EntitySet Name="UnitStatusHistories" EntityType="Self.UnitStatusHistory" />
+          <EntitySet Name="WorksOrders" EntityType="Self.WorksOrder" />
+          <EntitySet Name="WorksOrderStatus" EntityType="Self.WorksOrderStatu" />
+          <EntitySet Name="WorksOrderStatusHistories" EntityType="Self.WorksOrderStatusHistory" />
+          <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address" Association="Self.FK_Customer_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address1" Association="Self.FK_Customer_Address1">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressLink_Address" Association="Self.FK_CustomerAddressLink_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="CustomerAddressLink" EntitySet="CustomerAddressLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Allocation_ResourceGroup" Association="Self.FK_Allocation_ResourceGroup">
+            <End Role="ResourceGroup" EntitySet="ResourceGroups" />
+            <End Role="Allocation" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Allocation_UnitProcess" Association="Self.FK_Allocation_UnitProcess">
+            <End Role="UnitProcess" EntitySet="UnitProcesses" />
+            <End Role="Allocation" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactMethod_ContactType" Association="Self.FK_ContactMethod_ContactType">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="ContactMethod" EntitySet="ContactMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerContactMethodLink_ContactMethod" Association="Self.FK_CustomerContactMethodLink_ContactMethod">
+            <End Role="ContactMethod" EntitySet="ContactMethods" />
+            <End Role="CustomerContactMethodLink" EntitySet="CustomerContactMethodLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressLink_Customer" Association="Self.FK_CustomerAddressLink_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerAddressLink" EntitySet="CustomerAddressLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerContactMethodLink_Customer" Association="Self.FK_CustomerContactMethodLink_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerContactMethodLink" EntitySet="CustomerContactMethodLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrder_Customer" Association="Self.FK_CustomerOrder_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLine_CustomerOrder" Association="Self.FK_CustomerOrderLine_CustomerOrder">
+            <End Role="CustomerOrder" EntitySet="CustomerOrders" />
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderStatusHistory_CustomerOrder" Association="Self.FK_CustomerOrderStatusHistory_CustomerOrder">
+            <End Role="CustomerOrder" EntitySet="CustomerOrders" />
+            <End Role="CustomerOrderStatusHistory" EntitySet="CustomerOrderStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLine_Design" Association="Self.FK_CustomerOrderLine_Design">
+            <End Role="Design" EntitySet="Designs" />
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLine" Association="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLine">
+            <End Role="CustomerOrderLine" EntitySet="CustomerOrderLines" />
+            <End Role="CustomerOrderLineStatusHistory" EntitySet="CustomerOrderLineStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus" Association="Self.FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus">
+            <End Role="CustomerOrderLineStatus" EntitySet="CustomerOrderLineStatus" />
+            <End Role="CustomerOrderLineStatusHistory" EntitySet="CustomerOrderLineStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrderStatusHistory_CustomerOrderStatus" Association="Self.FK_CustomerOrderStatusHistory_CustomerOrderStatus">
+            <End Role="CustomerOrderStatus" EntitySet="CustomerOrderStatus" />
+            <End Role="CustomerOrderStatusHistory" EntitySet="CustomerOrderStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Department" Association="Self.FK_DesignProcess_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="DesignProcess" EntitySet="DesignProcesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceGroup_Department" Association="Self.FK_ResourceGroup_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="ResourceGroup" EntitySet="ResourceGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Design_Designer" Association="Self.FK_Design_Designer">
+            <End Role="Designer" EntitySet="Designers" />
+            <End Role="Design" EntitySet="Designs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Design" Association="Self.FK_DesignProcess_Design">
+            <End Role="Design" EntitySet="Designs" />
+            <End Role="DesignProcess" EntitySet="DesignProcesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrder_Design" Association="Self.FK_WorksOrder_Design">
+            <End Role="Design" EntitySet="Designs" />
+            <End Role="WorksOrder" EntitySet="WorksOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_Designer" Association="Self.FK_Staff_Designer">
+            <End Role="Designer" EntitySet="Designers" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DesignProcess_Process" Association="Self.FK_DesignProcess_Process">
+            <End Role="Process" EntitySet="Processes" />
+            <End Role="DesignProcess" EntitySet="DesignProcesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcess_DesignProcess" Association="Self.FK_UnitProcess_DesignProcess">
+            <End Role="DesignProcess" EntitySet="DesignProcesses" />
+            <End Role="UnitProcess" EntitySet="UnitProcesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaffResourceGroupLink_ResourceGroup" Association="Self.FK_StaffResourceGroupLink_ResourceGroup">
+            <End Role="ResourceGroup" EntitySet="ResourceGroups" />
+            <End Role="StaffResourceGroupLink" EntitySet="StaffResourceGroupLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_StaffResourceGroupLink" Association="Self.FK_Staff_StaffResourceGroupLink">
+            <End Role="StaffResourceGroupLink" EntitySet="StaffResourceGroupLinks" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Unit_WorksOrder" Association="Self.FK_Unit_WorksOrder">
+            <End Role="WorksOrder" EntitySet="WorksOrders" />
+            <End Role="Unit" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcess_Unit" Association="Self.FK_UnitProcess_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="UnitProcess" EntitySet="UnitProcesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitStatusHistory_Unit" Association="Self.FK_UnitStatusHistory_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="UnitStatusHistory" EntitySet="UnitStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcessStatusHistory_UnitProcess" Association="Self.FK_UnitProcessStatusHistory_UnitProcess">
+            <End Role="UnitProcess" EntitySet="UnitProcesses" />
+            <End Role="UnitProcessStatusHistory" EntitySet="UnitProcessStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitProcessStatusHistory_UnitProcessStatus" Association="Self.FK_UnitProcessStatusHistory_UnitProcessStatus">
+            <End Role="UnitProcessStatus" EntitySet="UnitProcessStatus" />
+            <End Role="UnitProcessStatusHistory" EntitySet="UnitProcessStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitStatusHistory_UnitStatus" Association="Self.FK_UnitStatusHistory_UnitStatus">
+            <End Role="UnitStatus" EntitySet="UnitStatus" />
+            <End Role="UnitStatusHistory" EntitySet="UnitStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrderStatusHistory_WorksOrder" Association="Self.FK_WorksOrderStatusHistory_WorksOrder">
+            <End Role="WorksOrder" EntitySet="WorksOrders" />
+            <End Role="WorksOrderStatusHistory" EntitySet="WorksOrderStatusHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorksOrderStatusHistory_WorksOrderStatus" Association="Self.FK_WorksOrderStatusHistory_WorksOrderStatus">
+            <End Role="WorksOrderStatus" EntitySet="WorksOrderStatus" />
+            <End Role="WorksOrderStatusHistory" EntitySet="WorksOrderStatusHistories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProcessSchedulerDbModelStoreContainer" CdmEntityContainer="ProcessSchedulerDbEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Allocations">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Allocation">
+              <MappingFragment StoreEntitySet="Allocation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UnitProcessID" ColumnName="UnitProcessID" />
+                <ScalarProperty Name="ResourceGroupID" ColumnName="ResourceGroupID" />
+                <ScalarProperty Name="EstimatedStartDate" ColumnName="EstimatedStartDate" />
+                <ScalarProperty Name="EstimatedEndDate" ColumnName="EstimatedEndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactMethods">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.ContactMethod">
+              <MappingFragment StoreEntitySet="ContactMethod">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="ContactMethodName" ColumnName="ContactMethodName" />
+                <ScalarProperty Name="ContactMethodDetails" ColumnName="ContactMethodDetails" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactTypes">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.ContactType">
+              <MappingFragment StoreEntitySet="ContactType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DefaultDeliveryAddressID" ColumnName="DefaultDeliveryAddressID" />
+                <ScalarProperty Name="DefaultInvoiceAddressID" ColumnName="DefaultInvoiceAddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerAddressLinks">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerAddressLink">
+              <MappingFragment StoreEntitySet="CustomerAddressLink">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerContactMethodLinks">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerContactMethodLink">
+              <MappingFragment StoreEntitySet="CustomerContactMethodLink">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ContactMethodID" ColumnName="ContactMethodID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrders">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrder">
+              <MappingFragment StoreEntitySet="CustomerOrder">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerPONumber" ColumnName="CustomerPONumber" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderLines">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrderLine">
+              <MappingFragment StoreEntitySet="CustomerOrderLine">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerOrderID" ColumnName="CustomerOrderID" />
+                <ScalarProperty Name="DesignID" ColumnName="DesignID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="PricePerUnit" ColumnName="PricePerUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderLineStatus">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrderLineStatu">
+              <MappingFragment StoreEntitySet="CustomerOrderLineStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderLineStatusHistories">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrderLineStatusHistory">
+              <MappingFragment StoreEntitySet="CustomerOrderLineStatusHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerOrderLineStatusID" ColumnName="CustomerOrderLineStatusID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CustomerOrderLineID" ColumnName="CustomerOrderLineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderStatus">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrderStatu">
+              <MappingFragment StoreEntitySet="CustomerOrderStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrderStatusHistories">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.CustomerOrderStatusHistory">
+              <MappingFragment StoreEntitySet="CustomerOrderStatusHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerOrderStatusID" ColumnName="CustomerOrderStatusID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CustomerOrderID" ColumnName="CustomerOrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Designs">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Design">
+              <MappingFragment StoreEntitySet="Design">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DesignerID" ColumnName="DesignerID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DesignNumber" ColumnName="DesignNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Designers">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Designer">
+              <MappingFragment StoreEntitySet="Designer">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DesignProcesses">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.DesignProcess">
+              <MappingFragment StoreEntitySet="DesignProcess">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DesignID" ColumnName="DesignID" />
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="ProcessTime" ColumnName="ProcessTime" />
+                <ScalarProperty Name="ProcessOrder" ColumnName="ProcessOrder" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Processes">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Process">
+              <MappingFragment StoreEntitySet="Process">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsOverNightProcess" ColumnName="IsOverNightProcess" />
+                <ScalarProperty Name="CompletedStatusText" ColumnName="CompletedStatusText" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceGroups">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.ResourceGroup">
+              <MappingFragment StoreEntitySet="ResourceGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffResourceGroupLinks">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.StaffResourceGroupLink">
+              <MappingFragment StoreEntitySet="StaffResourceGroupLink">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="ResourceGroupID" ColumnName="ResourceGroupID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorksOrderID" ColumnName="WorksOrderID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitProcesses">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.UnitProcess">
+              <MappingFragment StoreEntitySet="UnitProcess">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="DesignProcessID" ColumnName="DesignProcessID" />
+                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitProcessStatus">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.UnitProcessStatu">
+              <MappingFragment StoreEntitySet="UnitProcessStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitProcessStatusHistories">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.UnitProcessStatusHistory">
+              <MappingFragment StoreEntitySet="UnitProcessStatusHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UnitProcessID" ColumnName="UnitProcessID" />
+                <ScalarProperty Name="UnitProcessStatusID" ColumnName="UnitProcessStatusID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitStatus">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.UnitStatu">
+              <MappingFragment StoreEntitySet="UnitStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitStatusHistories">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.UnitStatusHistory">
+              <MappingFragment StoreEntitySet="UnitStatusHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="UnitStatusID" ColumnName="UnitStatusID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorksOrders">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.WorksOrder">
+              <MappingFragment StoreEntitySet="WorksOrder">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorksOrderNumber" ColumnName="WorksOrderNumber" />
+                <ScalarProperty Name="DesignID" ColumnName="DesignID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CustomerOrderLineID" ColumnName="CustomerOrderLineID" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorksOrderStatus">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.WorksOrderStatu">
+              <MappingFragment StoreEntitySet="WorksOrderStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorksOrderStatusHistories">
+            <EntityTypeMapping TypeName="ProcessSchedulerDbModel.WorksOrderStatusHistory">
+              <MappingFragment StoreEntitySet="WorksOrderStatusHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorksOrderID" ColumnName="WorksOrderID" />
+                <ScalarProperty Name="WorksOrderStatusID" ColumnName="WorksOrderStatusID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

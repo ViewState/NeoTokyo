@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8448418fe1654c36954935853fa54dcb" Name="Diagram1">
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Address" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Allocation" Width="1.5" PointX="17.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.ContactMethod" Width="1.5" PointX="8.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.ContactType" Width="1.5" PointX="6" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Country" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Customer" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerAddressLink" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerContactMethodLink" Width="1.5" PointX="10.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrder" Width="1.5" PointX="7.5" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrderLine" Width="1.5" PointX="9.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrderLineStatu" Width="1.5" PointX="9.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrderLineStatusHistory" Width="1.5" PointX="12" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrderStatu" Width="1.5" PointX="10.5" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.CustomerOrderStatusHistory" Width="1.5" PointX="12.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Department" Width="1.5" PointX="10.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Design" Width="1.5" PointX="7.5" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Designer" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.DesignProcess" Width="1.5" PointX="12.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Process" Width="1.5" PointX="10.5" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.ResourceGroup" Width="1.5" PointX="15" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Staff" Width="1.5" PointX="7.5" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.StaffResourceGroupLink" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.Unit" Width="1.5" PointX="12" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.UnitProcess" Width="1.5" PointX="15" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.UnitProcessStatu" Width="1.5" PointX="18" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.UnitProcessStatusHistory" Width="1.5" PointX="20.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.UnitStatu" Width="1.5" PointX="12" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.UnitStatusHistory" Width="1.5" PointX="14.25" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.WorksOrder" Width="1.5" PointX="9.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.WorksOrderStatu" Width="1.5" PointX="9.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProcessSchedulerDbModel.WorksOrderStatusHistory" Width="1.5" PointX="12" PointY="26.75" IsExpanded="true" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Address_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Customer_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Customer_Address1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerAddressLink_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Allocation_ResourceGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Allocation_UnitProcess" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_ContactMethod_ContactType" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerContactMethodLink_ContactMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerAddressLink_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerContactMethodLink_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrder_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderLine_CustomerOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderStatusHistory_CustomerOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderLine_Design" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderLineStatusHistory_CustomerOrderLine" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderLineStatusHistory_CustomerOrderLineStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_CustomerOrderStatusHistory_CustomerOrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_DesignProcess_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_ResourceGroup_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Design_Designer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_DesignProcess_Design" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_WorksOrder_Design" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Staff_Designer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_DesignProcess_Process" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitProcess_DesignProcess" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_StaffResourceGroupLink_ResourceGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Staff_StaffResourceGroupLink" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_Unit_WorksOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitProcess_Unit" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitStatusHistory_Unit" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitProcessStatusHistory_UnitProcess" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitProcessStatusHistory_UnitProcessStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_UnitStatusHistory_UnitStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_WorksOrderStatusHistory_WorksOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="ProcessSchedulerDbModel.FK_WorksOrderStatusHistory_WorksOrderStatus" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewState.ProcessScheduler.Model", "ViewState.ProcessScheduler.Model\ViewState.ProcessScheduler.Model.csproj", "{8C8B34B4-EB97-4A59-AE6E-AD6AFE1C1E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewState.ProcessScheduler.Entities", "ViewState.ProcessScheduler.Entities\ViewState.ProcessScheduler.Entities.csproj", "{764845EF-D18F-4401-B52F-18129FFC022C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewState.ProcessScheduler.Services", "ViewState.ProcessScheduler.Services\ViewState.ProcessScheduler.Services.csproj", "{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewState.ProcessScheduler.Web", "ViewState.ProcessScheduler.Web\ViewState.ProcessScheduler.Web.csproj", "{04D654B9-F337-4685-ABCE-CB1C25A1AB04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewState.ProcessScheduler.Web.Tests", "ViewState.ProcessScheduler.Web.Tests\ViewState.ProcessScheduler.Web.Tests.csproj", "{713CFCF8-BEEC-4D73-AC13-7DB4CE77D493}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C8B34B4-EB97-4A59-AE6E-AD6AFE1C1E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8B34B4-EB97-4A59-AE6E-AD6AFE1C1E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8B34B4-EB97-4A59-AE6E-AD6AFE1C1E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8B34B4-EB97-4A59-AE6E-AD6AFE1C1E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{764845EF-D18F-4401-B52F-18129FFC022C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{764845EF-D18F-4401-B52F-18129FFC022C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{764845EF-D18F-4401-B52F-18129FFC022C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{764845EF-D18F-4401-B52F-18129FFC022C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D654B9-F337-4685-ABCE-CB1C25A1AB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D654B9-F337-4685-ABCE-CB1C25A1AB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D654B9-F337-4685-ABCE-CB1C25A1AB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D654B9-F337-4685-ABCE-CB1C25A1AB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713CFCF8-BEEC-4D73-AC13-7DB4CE77D493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713CFCF8-BEEC-4D73-AC13-7DB4CE77D493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713CFCF8-BEEC-4D73-AC13-7DB4CE77D493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713CFCF8-BEEC-4D73-AC13-7DB4CE77D493}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
