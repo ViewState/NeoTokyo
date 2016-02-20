@@ -12,6 +12,7 @@ namespace ViewState.ProcessScheduler.Services
         Country GetById(Guid id);
         void CreateEntity(Country data);
         void SaveEntity();
+        void UpdateEntity(Country country);
     }
 
     public class CountryService : ICountryService
@@ -32,5 +33,16 @@ namespace ViewState.ProcessScheduler.Services
         public void CreateEntity(Country data) => _repository.Add(data);
 
         public void SaveEntity() => _unitOfWork.Commit();
+
+        public void UpdateEntity(Country country)
+        {
+            var targetCountry = _repository.GetById(country.ID);
+
+            targetCountry.Active = country.Active;
+            targetCountry.Code = country.Code;
+            targetCountry.Name = country.Name;
+
+            _repository.Update(targetCountry);
+        }
     }
 }

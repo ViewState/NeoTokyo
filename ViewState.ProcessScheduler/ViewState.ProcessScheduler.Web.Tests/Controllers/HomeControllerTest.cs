@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ViewState.ProcessScheduler.Web;
 using ViewState.ProcessScheduler.Web.Controllers;
 
 namespace ViewState.ProcessScheduler.Web.Tests.Controllers
@@ -12,6 +7,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
+        [TestCategory("HomeController")]
         [TestMethod]
         public void Index()
         {
@@ -25,6 +21,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             Assert.IsNotNull(result);
         }
 
+        [TestCategory("HomeController")]
         [TestMethod]
         public void About()
         {
@@ -38,6 +35,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
 
+        [TestCategory("HomeController")]
         [TestMethod]
         public void Contact()
         {
@@ -51,6 +49,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             Assert.IsNotNull(result);
         }
 
+        [TestCategory("HomeController")]
         [TestMethod]
         public void SetUp()
         {

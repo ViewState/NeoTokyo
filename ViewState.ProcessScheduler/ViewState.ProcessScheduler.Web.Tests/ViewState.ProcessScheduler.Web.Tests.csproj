@@ -33,8 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -80,8 +86,17 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.JustMock, Version=2016.1.107.7, Culture=neutral, PublicKeyToken=721b6c5bc0326b3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\JustMock.2016.1.107.7\lib\Net35\Telerik.JustMock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.JustMock.EntityFramework, Version=2015.3.929.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JustMock.EntityFramework.2015.3.929.5\lib\Net45\Telerik.JustMock.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CountryControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -92,6 +107,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Entities\ViewState.ProcessScheduler.Entities.csproj">
+      <Project>{764845ef-d18f-4401-b52f-18129ffc022c}</Project>
+      <Name>ViewState.ProcessScheduler.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Model\ViewState.ProcessScheduler.Model.csproj">
+      <Project>{8c8b34b4-eb97-4a59-ae6e-ad6afe1c1e7d}</Project>
+      <Name>ViewState.ProcessScheduler.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Services\ViewState.ProcessScheduler.Services.csproj">
+      <Project>{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}</Project>
+      <Name>ViewState.ProcessScheduler.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.ViewModels\ViewState.ProcessScheduler.ViewModels.csproj">
+      <Project>{96136026-1542-415a-a383-6bcb78ae797f}</Project>
+      <Name>ViewState.ProcessScheduler.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewState.ProcessScheduler.Web\ViewState.ProcessScheduler.Web.csproj">
       <Project>{04D654B9-F337-4685-ABCE-CB1C25A1AB04}</Project>
       <Name>ViewState.ProcessScheduler.Web</Name>
