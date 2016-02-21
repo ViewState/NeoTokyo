@@ -21,11 +21,23 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             _mapper = mapper;
         }
         
-        public ViewResult Index()
+        public ViewResult Index(String sortOrder)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
             IEnumerable<Country> countries = _countryService.GetAll().ToList();
             IEnumerable<CountryViewModel> countriesViewModel = _mapper.Map<IEnumerable<CountryViewModel>>(countries);
 
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    countriesViewModel = countriesViewModel.OrderByDescending(i => i.Name);
+                    break;
+                default:
+                    countriesViewModel = countriesViewModel.OrderBy(i => i.Name);
+                    break;
+            }
             return View(countriesViewModel);
         }
 
