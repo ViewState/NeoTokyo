@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
+using PagedList;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Services;
 using ViewState.ProcessScheduler.ViewModels;
@@ -21,15 +22,29 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             _mapper = mapper;
         }
         
-        public ViewResult Index(String sortOrder)
+        public ViewResult Index(String sortOrder, String searchString, String currentFilter, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             IEnumerable<Country> countries = _countryService.GetAll().ToList();
             IEnumerable<CountryViewModel> countriesViewModel = _mapper.Map<IEnumerable<CountryViewModel>>(countries);
 
-            switch (sortOrder)
+            if (!String.IsNullOrEmpty(searchString))
+                countriesViewModel = countriesViewModel.Where(i => i.Name.Contains(searchString));
+
+                switch (sortOrder)
             {
                 case "name_desc":
                     countriesViewModel = countriesViewModel.OrderByDescending(i => i.Name);
@@ -38,7 +53,13 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                     countriesViewModel = countriesViewModel.OrderBy(i => i.Name);
                     break;
             }
-            return View(countriesViewModel);
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            ModelState.Remove("searchString");
+
+            return View(countriesViewModel.ToPagedList(pageNumber, pageSize));
         }
 
         public ViewResult Create()

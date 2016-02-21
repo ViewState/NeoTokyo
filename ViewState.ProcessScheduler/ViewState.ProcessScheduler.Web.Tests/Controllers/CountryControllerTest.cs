@@ -36,7 +36,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 
         [TestCategory("CountryController")]
         [TestMethod]
-        public void Index_Should_Return_ViewResult_With_Model_Count_2_And_First_Name_In_Model_United_Kingdom()
+        public void Index_Should_Return_ViewResult_With_Model_Count_3_And_First_Name_In_Model_United_Kingdom()
         {
             Country unitedKingdom = new Country()
             {
@@ -56,17 +56,39 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
+            Country france = new Country()
+            {
+                Name = "France",
+                Code = "FR",
+                DateCreated = DateTime.Now,
+                Active = true,
+                ID = Guid.NewGuid()
+            };
+
+            Country germany = new Country()
+            {
+                Name = "Deuschland",
+                Code = "DE",
+                DateCreated = DateTime.Now,
+                Active = true,
+                ID = Guid.NewGuid()
+            };
+
             Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
             {
                 unitedKingdom,
-                america
+                america,
+                france,
+                germany
             });
-            
-            ViewResult result = _controller.Index(null);
+
+            String searchString = null;
+
+            ViewResult result = _controller.Index(null, searchString, null, null);
             var countries = result.Model as IEnumerable<CountryViewModel>;
 
-            Assert.AreEqual(2, countries?.Count());
-            Assert.AreEqual(unitedKingdom.Name, countries?.FirstOrDefault()?.Name);
+            Assert.AreEqual(3, countries?.Count());
+            Assert.AreEqual(germany.Name, countries?.FirstOrDefault()?.Name);
         }
 
         [TestCategory("CountryController")]
@@ -98,12 +120,69 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             });
 
             String sortOrder = "name_desc";
+            String searchString = null;
 
-            ViewResult result = _controller.Index(sortOrder);
+            ViewResult result = _controller.Index(sortOrder, searchString, null,null);
             var countries = result.Model as IEnumerable<CountryViewModel>;
 
             Assert.AreEqual(2, countries?.Count());
             Assert.AreEqual(america.Name, countries?.FirstOrDefault()?.Name);
+        }
+
+        [TestCategory("CountryController")]
+        [TestMethod]
+        public void Index_Should_Return_ViewResult_With_Model_Count_2()
+        {
+            Country unitedKingdom = new Country()
+            {
+                Name = "United Kingdom",
+                Active = true,
+                Code = "UK",
+                DateCreated = DateTime.Now,
+                ID = Guid.NewGuid()
+            };
+
+            Country america = new Country()
+            {
+                Name = "United States of America",
+                Code = "USA",
+                DateCreated = DateTime.Now,
+                Active = true,
+                ID = Guid.NewGuid()
+            };
+
+            Country france = new Country()
+            {
+                Name = "France",
+                Code = "FR",
+                DateCreated = DateTime.Now,
+                Active = true,
+                ID = Guid.NewGuid()
+            };
+
+            Country germany = new Country()
+            {
+                Name = "Deuschland",
+                Code = "DE",
+                DateCreated = DateTime.Now,
+                Active = true,
+                ID = Guid.NewGuid()
+            };
+
+            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
+            {
+                unitedKingdom,
+                america,
+                france,
+                germany
+            });
+
+            String searchString = "United";
+
+            ViewResult result = _controller.Index(null, searchString, null, null);
+            var countries = result.Model as IEnumerable<CountryViewModel>;
+
+            Assert.AreEqual(2, countries?.Count());
         }
 
         [TestCategory("CountryController")]
