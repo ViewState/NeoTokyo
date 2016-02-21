@@ -9,7 +9,7 @@ namespace ViewState.ProcessScheduler.Services
     public interface ICountryService
     {
         IEnumerable<Country> GetAll();
-        Country GetById(Guid id);
+        Country GetById(Guid? id);
         void CreateEntity(Country data);
         void SaveEntity();
         void UpdateEntity(Country country);
@@ -28,7 +28,7 @@ namespace ViewState.ProcessScheduler.Services
 
         public IEnumerable<Country> GetAll() => _repository.GetAll();
 
-        public Country GetById(Guid id) => _repository.GetById(id);
+        public Country GetById(Guid? id) => _repository.GetById(id);
 
         public void CreateEntity(Country data) => _repository.Add(data);
 

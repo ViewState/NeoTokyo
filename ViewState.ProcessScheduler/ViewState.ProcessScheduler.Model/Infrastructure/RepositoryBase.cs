@@ -32,7 +32,7 @@ namespace ViewState.ProcessScheduler.Model.Infrastructure
                 Delete(obj);
             }
         }
-        public virtual T GetById(Guid id) => _dbSet.Find(id);
+        public virtual T GetById(Guid? id) => _dbSet.Find(id);
         public virtual IEnumerable<T> GetAll() => _dbSet.ToList();
         public virtual IEnumerable<T> GetMany(Expression<Func<T, Boolean>> where) => _dbSet.Where(where).ToList(); 
         public T Get(Expression<Func<T, Boolean>> where) => _dbSet.Where(where).FirstOrDefault();

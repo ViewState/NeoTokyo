@@ -20,8 +20,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             _countryService = countryService;
             _mapper = mapper;
         }
-
-        // GET: Country
+        
         public ViewResult Index()
         {
             IEnumerable<Country> countries = _countryService.GetAll().ToList();
@@ -57,12 +56,15 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             }
         }
 
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(Guid? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var country = _countryService.GetById(id);
+
+            if (country == null)
+                return HttpNotFound();
 
             var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
 
@@ -90,6 +92,46 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 }
             }
             return View();
+        }
+
+        public ActionResult Details(Guid? id)
+        {
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var country = _countryService.GetById(id);
+
+            if (country == null)
+                return HttpNotFound();
+
+            var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
+
+            return View(countryViewModel);
+        }
+
+        public ActionResult Deactivate(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var country = _countryService.GetById(id);
+
+            if (country == null)
+                return HttpNotFound();
+
+            var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
+
+            return View(countryViewModel);
+        }
+        [HttpPost,ActionName("Deactivate")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeactivePost(Guid id)
+        {
+            Country country = _countryService.GetById(id);
+            country.Active = false;
+            _countryService.UpdateEntity(country);
+
+            return RedirectToAction("Index");
         }
     }
 }

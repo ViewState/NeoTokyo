@@ -17,6 +17,8 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
     public class CountryControllerTest
     {
         private IMapper _mapper;
+        private ICountryService _countryService;
+        private CountryController _controller;
 
         [TestInitialize]
         public void InitialiseMembers()
@@ -26,22 +28,23 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 x.AddProfile<DomainToViewModelMappingProfile>();
                 x.AddProfile<ViewModelToDomainMappingProfile>();
             }).CreateMapper();
+
+            _countryService = Mock.Create<ICountryService>();
+
+            _controller = new CountryController(_countryService, _mapper);
         }
 
         [TestCategory("CountryController")]
         [TestMethod]
         public void Index_Should_Return_ViewResult_With_Model_Count_2()
         {
-            var countryService = Mock.Create<ICountryService>();
-            
-            Mock.Arrange(() => countryService.GetAll()).Returns(new List<Country>
+            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
             {
                 new Country() {Name = "United Kingdom",Active = true,Code = "UK",DateCreated = DateTime.Now,ID = Guid.NewGuid()},
                 new Country() { Name = "United States of America", Code = "USA",DateCreated = DateTime.Now, Active = true, ID = Guid.NewGuid()}
             });
-
-            CountryController controller = new CountryController(countryService, _mapper);
-            ViewResult result = controller.Index();
+            
+            ViewResult result = _controller.Index();
             var countries = result.Model as IEnumerable<CountryViewModel>;
 
             Assert.AreEqual(2, countries?.Count());
@@ -51,11 +54,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void Create_Returns_A_View()
         {
-            var countryService = Mock.Create<ICountryService>();
-
-            CountryController controller = new CountryController(countryService, _mapper);
-
-            ViewResult result = controller.Create();
+            ViewResult result = _controller.Create();
 
             Assert.IsNotNull(result);
         }
@@ -64,25 +63,17 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void CreatePost_Calls_CreateEntity_And_SaveEntity_On_Service()
         {
-            var countryService = Mock.Create<ICountryService>();
+            _controller.CreatePost(new CountryViewModel());
 
-            CountryController controller = new CountryController(countryService, _mapper);
-
-            controller.CreatePost(new CountryViewModel());
-
-            Mock.Assert(()=>countryService.CreateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
-            Mock.Assert(() => countryService.SaveEntity(), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.CreateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(() => _countryService.SaveEntity(), Occurs.AtLeastOnce());
         }
 
         [TestCategory("CountryController")]
         [TestMethod]
         public void Edit_Returns_A_View()
         {
-            var countryService = Mock.Create<ICountryService>();
-
-            CountryController controller = new CountryController(countryService, _mapper);
-
-            ViewResult result = controller.Edit(Guid.NewGuid()) as ViewResult;
+            ViewResult result = _controller.Edit(Guid.NewGuid()) as ViewResult;
 
             Assert.IsNotNull(result);
         }
@@ -91,13 +82,36 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void EditPost_Calls_Update_And_Save_On_Service()
         {
-            var countryService = Mock.Create<ICountryService>();
+            _controller.EditPost(new CountryViewModel());
 
-            CountryController controller = new CountryController(countryService, _mapper);
+            Mock.Assert(()=>_countryService.UpdateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+        }
 
-            controller.EditPost(new CountryViewModel());
+        [TestCategory("CountryController")]
+        [TestMethod]
+        public void Details_Returns_A_View()
+        {
+            ViewResult result = _controller.Details(Guid.NewGuid()) as ViewResult;
 
-            Mock.Assert(()=>countryService.UpdateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Assert.IsNotNull(result);
+        }
+
+        [TestCategory("CountryController")]
+        [TestMethod]
+        public void Deactivate_Returns_A_View()
+        {
+            ViewResult result = _controller.Deactivate(Guid.NewGuid()) as ViewResult;
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestCategory("CountryController")]
+        [TestMethod]
+        public void DeactivatePost_Calls_UpdateEntity_On_Service()
+        {
+            _controller.DeactivePost(Guid.NewGuid());
+
+            Mock.Assert(()=>_countryService.UpdateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
         }
     }
 }
