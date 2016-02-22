@@ -11,6 +11,7 @@ namespace ViewState.ProcessScheduler.Web.Mappings
         protected override void Configure()
         {
             CreateMap<CountryViewModel, Country>();
+            CreateMap<ProcessViewModel, Process>();
         }
     }
 }

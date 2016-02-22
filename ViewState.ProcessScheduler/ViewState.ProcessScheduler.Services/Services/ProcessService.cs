@@ -9,9 +9,10 @@ namespace ViewState.ProcessScheduler.Services
     public interface IProcessService
     {
         IEnumerable<Process> GetAll();
-        Process GetById(Guid id);
+        Process GetById(Guid? id);
         void CreateEntity(Process data);
         void SaveEntity();
+        void Update(Process process);
     }
 
     public class ProcessService : IProcessService
@@ -27,10 +28,22 @@ namespace ViewState.ProcessScheduler.Services
 
         public IEnumerable<Process> GetAll() => _repository.GetAll();
 
-        public Process GetById(Guid id) => _repository.GetById(id);
+        public Process GetById(Guid? id) => _repository.GetById(id);
 
         public void CreateEntity(Process data) => _repository.Add(data);
 
         public void SaveEntity() => _unitOfWork.Commit();
+
+        public void Update(Process process)
+        {
+            var targetProcess = _repository.GetById(process.ID);
+
+            targetProcess.Active = process.Active;
+            targetProcess.CompletedStatusText = process.CompletedStatusText;
+            targetProcess.IsOverNightProcess = process.IsOverNightProcess;
+            targetProcess.Name = process.Name;
+
+            _repository.Update(targetProcess);
+        }
     }
 }

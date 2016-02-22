@@ -1,6 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 using AutoMapper;
+using PagedList;
+using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Services;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Web.Controllers
 {
@@ -16,15 +23,59 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         }
 
         // GET: Process
-        public ActionResult Index()
+        public ViewResult Index(String sortOrder, String searchString, String currentFilter, Int32? page)
         {
-            return View();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            var processes = _processService.GetAll().ToList();
+            IEnumerable<ProcessViewModel> processViewModels = _mapper.Map<IEnumerable<Process>, IEnumerable<ProcessViewModel>>(processes);
+
+            if (!String.IsNullOrEmpty(searchString))
+                processViewModels = processViewModels.Where(i => i.Name.Contains(searchString));
+            
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    processViewModels = processViewModels.OrderByDescending(i => i.Name);
+                    break;
+                default:
+                    processViewModels = processViewModels.OrderBy(i => i.Name);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            ModelState.Remove("SearchString");
+
+            return View(processViewModels.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Process/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid? id)
         {
-            return View();
+            if(id == null)
+                return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Process process = _processService.GetById(id);
+
+            if (process == null)
+                return HttpNotFound();
+
+            ProcessViewModel processViewModel = _mapper.Map<ProcessViewModel>(process);
+
+            return View(processViewModel);
         }
 
         // GET: Process/Create
@@ -35,11 +86,22 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 
         // POST: Process/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ProcessViewModel processViewModel)
         {
             try
             {
-                // TODO: Add insert logic here
+                Process process = new Process
+                {
+                    Name = processViewModel.Name,
+                    ID = Guid.NewGuid(),
+                    DateCreated = DateTime.Now,
+                    Active = true,
+                    IsOverNightProcess = processViewModel.IsOverNightProcess,
+                    CompletedStatusText = processViewModel.CompletedStatusText
+                };
+
+                _processService.CreateEntity(process);
+                _processService.SaveEntity();
 
                 return RedirectToAction("Index");
             }
@@ -50,18 +112,31 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         }
 
         // GET: Process/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid? id)
         {
-            return View();
+            if(id == null)
+                return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var process = _processService.GetById(id);
+
+            if (process == null)
+                return HttpNotFound();
+
+            var processViewModel = _mapper.Map<ProcessViewModel>(process);
+
+            return View(processViewModel);
         }
 
         // POST: Process/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ProcessViewModel processViewModel)
         {
             try
             {
-                // TODO: Add update logic here
+                Process process = _mapper.Map<Process>(processViewModel);
+
+                _processService.Update(process);
+                _processService.SaveEntity();
 
                 return RedirectToAction("Index");
             }
@@ -70,24 +145,36 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 return View();
             }
         }
-
-        // GET: Process/Delete/5
-        public ActionResult Delete(int id)
+        
+        public ActionResult Deactivate(Guid? id)
         {
-            return View();
+            if(id == null)
+                return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Process process = _processService.GetById(id);
+
+            if (process == null)
+                return HttpNotFound();
+
+            ProcessViewModel processViewModel = _mapper.Map<ProcessViewModel>(process);
+
+            return View(processViewModel);
         }
 
-        // POST: Process/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeactivatePost(Guid id)
         {
             try
             {
-                // TODO: Add delete logic here
+                Process process = _processService.GetById(id);
+
+                process.Active = false;
+
+                _processService.Update(process);
+                _processService.SaveEntity();
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
                 return View();
             }
