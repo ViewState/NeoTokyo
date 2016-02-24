@@ -6,31 +6,20 @@ using ViewState.ProcessScheduler.Model.Repositories;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public interface IDepartmentService
+    public class DepartmentService : ServiceBase<Department>, IService<Department>
     {
-        IEnumerable<Department> GetAll();
-        Department GetById(Guid id);
-        void CreateEntity(Department data);
-        void SaveEntity();
-    }
-
-    public class DepartmentService : IDepartmentService
-    {
-        private readonly IDepartmentRepository _repository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public DepartmentService(IDepartmentRepository repository, IUnitOfWork unitOfWork)
+        public DepartmentService(IDepartmentRepository repository, IUnitOfWork unitOfWork) : base(unitOfWork, repository)
         {
-            _repository = repository;
-            _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Department> GetAll() => _repository.GetAll();
+        public void Update(Department data)
+        {
+            var target = Repository.GetById(data.ID);
 
-        public Department GetById(Guid id) => _repository.GetById(id);
+            target.Name = data.Name;
+            target.Active = data.Active;
 
-        public void CreateEntity(Department data) => _repository.Add(data);
-
-        public void SaveEntity() => _unitOfWork.Commit();
+            Repository.Update(target);
+        }
     }
 }

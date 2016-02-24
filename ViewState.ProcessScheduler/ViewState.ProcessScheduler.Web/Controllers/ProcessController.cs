@@ -13,10 +13,10 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 {
     public class ProcessController : Controller
     {
-        private readonly IProcessService _processService;
+        private readonly IService<Process> _processService;
         private readonly IMapper _mapper;
 
-        public ProcessController(IProcessService processService, IMapper mapper)
+        public ProcessController(IService<Process> processService, IMapper mapper)
         {
             _processService = processService;
             _mapper = mapper;
@@ -100,8 +100,8 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                     CompletedStatusText = processViewModel.CompletedStatusText
                 };
 
-                _processService.CreateEntity(process);
-                _processService.SaveEntity();
+                _processService.Create(process);
+                _processService.Save();
 
                 return RedirectToAction("Index");
             }
@@ -136,7 +136,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 Process process = _mapper.Map<Process>(processViewModel);
 
                 _processService.Update(process);
-                _processService.SaveEntity();
+                _processService.Save();
 
                 return RedirectToAction("Index");
             }
@@ -161,6 +161,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             return View(processViewModel);
         }
 
+        [HttpPost,ActionName("Deactivate")]
         public ActionResult DeactivatePost(Guid id)
         {
             try
@@ -170,7 +171,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 process.Active = false;
 
                 _processService.Update(process);
-                _processService.SaveEntity();
+                _processService.Save();
 
                 return RedirectToAction("Index");
             }

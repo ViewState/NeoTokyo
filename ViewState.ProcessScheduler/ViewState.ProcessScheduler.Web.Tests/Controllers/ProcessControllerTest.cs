@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,14 +16,14 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
     [TestClass]
     public class ProcessControllerTest
     {
-        private IProcessService _processService;
+        private IService<Process> _processService;
         private IMapper _mapper;
         private ProcessController _controller;
 
         [TestInitialize]
         public void InitialiseTests()
         {
-            _processService = Mock.Create<IProcessService>();
+            _processService = Mock.Create<IService<Process>>();
             _mapper = new MapperConfiguration(x =>
             {
                 x.AddProfile<DomainToViewModelMappingProfile>();
@@ -207,8 +206,8 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 
             _controller.Create(processViewModel);
 
-            Mock.Assert(() => _processService.CreateEntity(Arg.IsAny<Process>()), Occurs.AtLeastOnce());
-            Mock.Assert(()=>_processService.SaveEntity(), Occurs.AtLeastOnce());
+            Mock.Assert(() => _processService.Create(Arg.IsAny<Process>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
 
         [TestCategory("ProcessController")]
@@ -229,7 +228,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             _controller.Edit(processViewModel);
 
             Mock.Assert(()=>_processService.Update(Arg.IsAny<Process>()), Occurs.AtLeastOnce());
-            Mock.Assert(()=>_processService.SaveEntity(), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
 
         [TestCategory("ProcessController")]
@@ -248,7 +247,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
             _controller.DeactivatePost(Guid.NewGuid());
             
             Mock.Assert(()=>_processService.Update(Arg.IsAny<Process>()),Occurs.AtLeastOnce());
-            Mock.Assert(()=>_processService.SaveEntity(), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
     }
 }

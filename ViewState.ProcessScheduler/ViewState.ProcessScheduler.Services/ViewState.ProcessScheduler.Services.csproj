@@ -60,6 +60,7 @@
     <Compile Include="Services\DesignProcessService.cs" />
     <Compile Include="Services\ProcessService.cs" />
     <Compile Include="Services\ResourceGroupService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\StaffService.cs" />
     <Compile Include="Services\StaffResourceGroupLinkService.cs" />
     <Compile Include="Services\UnitService.cs" />

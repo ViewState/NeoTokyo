@@ -17,7 +17,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
     public class CountryControllerTest
     {
         private IMapper _mapper;
-        private ICountryService _countryService;
+        private IService<Country> _countryService;
         private CountryController _controller;
 
         [TestInitialize]
@@ -29,7 +29,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 x.AddProfile<ViewModelToDomainMappingProfile>();
             }).CreateMapper();
 
-            _countryService = Mock.Create<ICountryService>();
+            _countryService = Mock.Create<IService<Country>>();
 
             _controller = new CountryController(_countryService, _mapper);
         }
@@ -200,8 +200,8 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.CreatePost(new CountryViewModel());
 
-            Mock.Assert(()=>_countryService.CreateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
-            Mock.Assert(() => _countryService.SaveEntity(), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Create(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(() => _countryService.Save(), Occurs.AtLeastOnce());
         }
 
         [TestCategory("CountryController")]
@@ -219,7 +219,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.EditPost(new CountryViewModel());
 
-            Mock.Assert(()=>_countryService.UpdateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Update(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
         }
 
         [TestCategory("CountryController")]
@@ -246,7 +246,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.DeactivePost(Guid.NewGuid());
 
-            Mock.Assert(()=>_countryService.UpdateEntity(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Update(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
         }
     }
 }

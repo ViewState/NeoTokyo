@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<ViewState.ProcessScheduler.ViewModels.ProcessViewModel>
+﻿@model PagedList.IPagedList<ViewState.ProcessScheduler.ViewModels.DepartmentViewModel>
 @using PagedList.Mvc
 <link href="../../Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
@@ -7,12 +7,12 @@
     Layout = "~/Views/Shared/_LayoutPageSetUp.cshtml";
 }
 
-<h2>Processes</h2>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@using (Html.BeginForm("Index", "Process", FormMethod.Post))
+@using (Html.BeginForm("Index", "Department", FormMethod.Post))
 {
     <p>
         <table>
@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td>
-                    @Html.TextBox("searchString", ViewBag.SearchString as String, new {@class = "form-control"})
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as String, new {@class = "form-control"})
                 </td>
                 <td>
                     <input type="submit" value="Search" class="btn btn-default"/>
@@ -34,19 +34,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Name", "Index", new {sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Over Night Process
+            @Html.Label("Active")
         </th>
         <th>
-            Completed Status Text
-        </th>
-        <th>
-            Date Created
-        </th>
-        <th>
-            Active
+            @Html.Label("Date Created")
         </th>
         <th></th>
     </tr>
@@ -57,21 +51,15 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsOverNightProcess)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletedStatusText)
+            @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Deactivate", "Deactivate", new { id=item.ID })
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }

@@ -13,10 +13,10 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 {
     public class CountryController : Controller
     {
-        private readonly ICountryService _countryService;
+        private readonly IService<Country> _countryService;
         private readonly IMapper _mapper;
 
-        public CountryController(ICountryService countryService, IMapper mapper)
+        public CountryController(IService<Country> countryService, IMapper mapper)
         {
             _countryService = countryService;
             _mapper = mapper;
@@ -77,12 +77,12 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 country.ID = Guid.NewGuid();
                 country.DateCreated = DateTime.Now;
 
-                _countryService.CreateEntity(country);
-                _countryService.SaveEntity();
+                _countryService.Create(country);
+                _countryService.Save();
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occured while trying to save country to the database";
                 return View();
@@ -113,12 +113,12 @@ namespace ViewState.ProcessScheduler.Web.Controllers
                 {
                     var country = _mapper.Map<CountryViewModel, Country>(countryViewModel);
 
-                    _countryService.UpdateEntity(country);
-                    _countryService.SaveEntity();
+                    _countryService.Update(country);
+                    _countryService.Save();
 
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "An error occured while trying to update this entity";
                     return View();
@@ -162,8 +162,8 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             Country country = _countryService.GetById(id);
             country.Active = false;
-            _countryService.UpdateEntity(country);
-
+            _countryService.Update(country);
+            
             return RedirectToAction("Index");
         }
     }

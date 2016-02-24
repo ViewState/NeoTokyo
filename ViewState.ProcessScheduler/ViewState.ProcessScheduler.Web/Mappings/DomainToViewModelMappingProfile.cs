@@ -13,6 +13,7 @@ namespace ViewState.ProcessScheduler.Web.Mappings
         {
             CreateMap<Country, CountryViewModel>();
             CreateMap<Process, ProcessViewModel>();
+            CreateMap<Department, DepartmentViewModel>();
         }
     }
 }
