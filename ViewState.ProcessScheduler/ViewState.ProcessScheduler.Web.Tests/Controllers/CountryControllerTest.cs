@@ -2,43 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Services;
 using ViewState.ProcessScheduler.ViewModels;
 using ViewState.ProcessScheduler.Web.Controllers;
-using ViewState.ProcessScheduler.Web.Mappings;
 
 namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 {
     [TestClass]
     public class CountryControllerTest
     {
-        private IMapper _mapper;
-        private IService<Country> _countryService;
+        private IService<Country, CountryViewModel> _countryService;
         private CountryController _controller;
 
         [TestInitialize]
         public void InitialiseMembers()
         {
-            _mapper = new MapperConfiguration(x =>
-            {
-                x.AddProfile<DomainToViewModelMappingProfile>();
-                x.AddProfile<ViewModelToDomainMappingProfile>();
-            }).CreateMapper();
+            _countryService = Mock.Create<IService<Country, CountryViewModel>>();
 
-            _countryService = Mock.Create<IService<Country>>();
-
-            _controller = new CountryController(_countryService, _mapper);
+            _controller = new CountryController(_countryService);
         }
 
         [TestCategory("CountryController")]
         [TestMethod]
         public void Index_Should_Return_ViewResult_With_Model_Count_3_And_First_Name_In_Model_United_Kingdom()
         {
-            Country unitedKingdom = new Country()
+            CountryViewModel unitedKingdom = new CountryViewModel()
             {
                 Name = "United Kingdom",
                 Active = true,
@@ -47,7 +38,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country america = new Country()
+            CountryViewModel america = new CountryViewModel()
             {
                 Name = "United States of America",
                 Code = "USA",
@@ -56,7 +47,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country france = new Country()
+            CountryViewModel france = new CountryViewModel()
             {
                 Name = "France",
                 Code = "FR",
@@ -65,7 +56,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country germany = new Country()
+            CountryViewModel germany = new CountryViewModel()
             {
                 Name = "Deuschland",
                 Code = "DE",
@@ -74,7 +65,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
+            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<CountryViewModel>
             {
                 unitedKingdom,
                 america,
@@ -95,7 +86,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void Index_Should_Return_ViewResult_With_First_Name_In_Model_United_States_of_America()
         {
-            Country unitedKingdom = new Country()
+            CountryViewModel unitedKingdom = new CountryViewModel()
             {
                 Name = "United Kingdom",
                 Active = true,
@@ -104,7 +95,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country america = new Country()
+            CountryViewModel america = new CountryViewModel()
             {
                 Name = "United States of America",
                 Code = "USA",
@@ -113,7 +104,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
+            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<CountryViewModel>
             {
                 unitedKingdom,
                 america
@@ -133,7 +124,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void Index_Should_Return_ViewResult_With_Model_Count_2()
         {
-            Country unitedKingdom = new Country()
+            CountryViewModel unitedKingdom = new CountryViewModel()
             {
                 Name = "United Kingdom",
                 Active = true,
@@ -142,7 +133,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country america = new Country()
+            CountryViewModel america = new CountryViewModel()
             {
                 Name = "United States of America",
                 Code = "USA",
@@ -151,7 +142,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country france = new Country()
+            CountryViewModel france = new CountryViewModel()
             {
                 Name = "France",
                 Code = "FR",
@@ -160,7 +151,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Country germany = new Country()
+            CountryViewModel germany = new CountryViewModel()
             {
                 Name = "Deuschland",
                 Code = "DE",
@@ -169,7 +160,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 ID = Guid.NewGuid()
             };
 
-            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<Country>
+            Mock.Arrange(() => _countryService.GetAll()).Returns(new List<CountryViewModel>
             {
                 unitedKingdom,
                 america,
@@ -200,7 +191,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.CreatePost(new CountryViewModel());
 
-            Mock.Assert(()=>_countryService.Create(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Create(Arg.IsAny<CountryViewModel>()), Occurs.AtLeastOnce());
             Mock.Assert(() => _countryService.Save(), Occurs.AtLeastOnce());
         }
 
@@ -219,7 +210,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.EditPost(new CountryViewModel());
 
-            Mock.Assert(()=>_countryService.Update(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Update(Arg.IsAny<CountryViewModel>()), Occurs.AtLeastOnce());
         }
 
         [TestCategory("CountryController")]
@@ -242,11 +233,12 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 
         [TestCategory("CountryController")]
         [TestMethod]
-        public void DeactivatePost_Calls_UpdateEntity_On_Service()
+        public void DeactivatePost_Calls_Update_And_Save_On_Service()
         {
             _controller.DeactivePost(Guid.NewGuid());
 
-            Mock.Assert(()=>_countryService.Update(Arg.IsAny<Country>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Update(Arg.IsAny<CountryViewModel>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_countryService.Save(), Occurs.AtLeastOnce());
         }
     }
 }

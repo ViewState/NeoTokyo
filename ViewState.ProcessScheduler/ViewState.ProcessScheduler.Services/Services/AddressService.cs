@@ -4,16 +4,17 @@ using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public class AddressService : ServiceBase<Address>, IService<Address>
+    public class AddressService : ServiceBase<Address, AddressViewModel>, IService<Address, AddressViewModel>
     {
         public AddressService(IAddressRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
 
-        public void Update(Address data)
+        public void Update(AddressViewModel data)
         {
             var target = Repository.GetById(data.ID);
 

@@ -4,23 +4,24 @@ using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public class ProcessService : ServiceBase<Process>, IService<Process>
+    public class ProcessService : ServiceBase<Process, ProcessViewModel>, IService<Process, ProcessViewModel>
     {
         public ProcessService(IProcessRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
         
-        public void Update(Process process)
+        public void Update(ProcessViewModel data)
         {
-            var targetProcess = Repository.GetById(process.ID);
+            var targetProcess = Repository.GetById(data.ID);
 
-            targetProcess.Active = process.Active;
-            targetProcess.CompletedStatusText = process.CompletedStatusText;
-            targetProcess.IsOverNightProcess = process.IsOverNightProcess;
-            targetProcess.Name = process.Name;
+            targetProcess.Active = data.Active;
+            targetProcess.CompletedStatusText = data.CompletedStatusText;
+            targetProcess.IsOverNightProcess = data.IsOverNightProcess;
+            targetProcess.Name = data.Name;
 
             Repository.Update(targetProcess);
         }

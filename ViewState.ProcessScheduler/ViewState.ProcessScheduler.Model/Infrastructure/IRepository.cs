@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ViewState.ProcessScheduler.Model.Infrastructure
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T>
     {
         void Add(T entity);
         void Update(T entity);

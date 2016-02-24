@@ -86,6 +86,10 @@
       <Project>{8c8b34b4-eb97-4a59-ae6e-ad6afe1c1e7d}</Project>
       <Name>ViewState.ProcessScheduler.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.ViewModels\ViewState.ProcessScheduler.ViewModels.csproj">
+      <Project>{96136026-1542-415a-a383-6bcb78ae797f}</Project>
+      <Name>ViewState.ProcessScheduler.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

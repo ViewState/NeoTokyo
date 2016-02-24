@@ -4,16 +4,17 @@ using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public class DepartmentService : ServiceBase<Department>, IService<Department>
+    public class DepartmentService : ServiceBase<Department, DepartmentViewModel>, IService<Department, DepartmentViewModel>
     {
         public DepartmentService(IDepartmentRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
 
-        public void Update(Department data)
+        public void Update(DepartmentViewModel data)
         {
             var target = Repository.GetById(data.ID);
 

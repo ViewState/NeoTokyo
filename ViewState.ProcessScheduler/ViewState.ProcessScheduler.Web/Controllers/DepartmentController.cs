@@ -12,13 +12,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IService<Department> _service;
-        private readonly IMapper _mapper;
+        private readonly IService<Department, DepartmentViewModel> _service;
 
-        public DepartmentController(IService<Department> service, IMapper mapper)
+        public DepartmentController(IService<Department, DepartmentViewModel> service)
         {
             _service = service;
-            _mapper = mapper;
         }
         
         public ActionResult Index(String sortOrder, String searchString, String currentFilter, Int32? page)
@@ -36,8 +34,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            IEnumerable<Department> departments = _service.GetAll().ToList();
-            IEnumerable<DepartmentViewModel> departmentsViewModels = _mapper.Map<IEnumerable<DepartmentViewModel>> (departments);
+            IEnumerable<DepartmentViewModel> departmentsViewModels = _service.GetAll().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
                 departmentsViewModels = departmentsViewModels.Where(i => i.Name.Contains(searchString));

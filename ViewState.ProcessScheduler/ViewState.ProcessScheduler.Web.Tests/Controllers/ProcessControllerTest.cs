@@ -16,27 +16,21 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
     [TestClass]
     public class ProcessControllerTest
     {
-        private IService<Process> _processService;
-        private IMapper _mapper;
+        private IService<Process, ProcessViewModel> _processService;
         private ProcessController _controller;
 
         [TestInitialize]
         public void InitialiseTests()
         {
-            _processService = Mock.Create<IService<Process>>();
-            _mapper = new MapperConfiguration(x =>
-            {
-                x.AddProfile<DomainToViewModelMappingProfile>();
-                x.AddProfile<ViewModelToDomainMappingProfile>();
-            }).CreateMapper();
-            _controller = new ProcessController(_processService, _mapper);
+            _processService = Mock.Create<IService<Process, ProcessViewModel>>();
+            _controller = new ProcessController(_processService);
         }
 
         [TestCategory("ProcessController")]
         [TestMethod]
         public void Index_Should_Return_A_View_With_First_Name_In_Model_Finish()
         {
-            Process preparation = new Process
+            ProcessViewModel preparation = new ProcessViewModel
             {
                 Name = "Preparation",
                 CompletedStatusText = "Prepared",
@@ -46,7 +40,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process winding = new Process
+            ProcessViewModel winding = new ProcessViewModel
             {
                 Name = "Winding",
                 CompletedStatusText = "Wound",
@@ -56,7 +50,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process plating = new Process
+            ProcessViewModel plating = new ProcessViewModel
             {
                 Name = "Plating",
                 CompletedStatusText = "Plated",
@@ -66,7 +60,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process varnish = new Process
+            ProcessViewModel varnish = new ProcessViewModel
             {
                 Name = "Varnish",
                 CompletedStatusText = "Varnished",
@@ -76,7 +70,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = true
             };
 
-            Process finish = new Process
+            ProcessViewModel finish = new ProcessViewModel
             {
                 Name = "Finishing",
                 CompletedStatusText = "Finished",
@@ -86,7 +80,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Mock.Arrange(() => _processService.GetAll()).Returns(new List<Process>
+            Mock.Arrange(() => _processService.GetAll()).Returns(new List<ProcessViewModel>
             {
                 preparation,
                 winding,
@@ -111,7 +105,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         [TestMethod]
         public void Index_Should_Return_A_View_With_First_Name_In_Model_Winding_And_Model_Count_3()
         {
-            Process preparation = new Process
+            ProcessViewModel preparation = new ProcessViewModel
             {
                 Name = "Preparation",
                 CompletedStatusText = "Prepared",
@@ -121,7 +115,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process winding = new Process
+            ProcessViewModel winding = new ProcessViewModel
             {
                 Name = "Winding",
                 CompletedStatusText = "Wound",
@@ -131,7 +125,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process plating = new Process
+            ProcessViewModel plating = new ProcessViewModel
             {
                 Name = "Plating",
                 CompletedStatusText = "Plated",
@@ -141,7 +135,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Process varnish = new Process
+            ProcessViewModel varnish = new ProcessViewModel
             {
                 Name = "Varnish",
                 CompletedStatusText = "Varnished",
@@ -151,7 +145,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = true
             };
 
-            Process finish = new Process
+            ProcessViewModel finish = new ProcessViewModel
             {
                 Name = "Finishing",
                 CompletedStatusText = "Finished",
@@ -161,7 +155,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
                 IsOverNightProcess = false
             };
 
-            Mock.Arrange(() => _processService.GetAll()).Returns(new List<Process>
+            Mock.Arrange(() => _processService.GetAll()).Returns(new List<ProcessViewModel>
             {
                 preparation,
                 winding,
@@ -206,7 +200,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 
             _controller.Create(processViewModel);
 
-            Mock.Assert(() => _processService.Create(Arg.IsAny<Process>()), Occurs.AtLeastOnce());
+            Mock.Assert(() => _processService.Create(Arg.IsAny<ProcessViewModel>()), Occurs.AtLeastOnce());
             Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
 
@@ -227,7 +221,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
 
             _controller.Edit(processViewModel);
 
-            Mock.Assert(()=>_processService.Update(Arg.IsAny<Process>()), Occurs.AtLeastOnce());
+            Mock.Assert(()=>_processService.Update(Arg.IsAny<ProcessViewModel>()), Occurs.AtLeastOnce());
             Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
 
@@ -246,7 +240,7 @@ namespace ViewState.ProcessScheduler.Web.Tests.Controllers
         {
             _controller.DeactivatePost(Guid.NewGuid());
             
-            Mock.Assert(()=>_processService.Update(Arg.IsAny<Process>()),Occurs.AtLeastOnce());
+            Mock.Assert(()=>_processService.Update(Arg.IsAny<ProcessViewModel>()),Occurs.AtLeastOnce());
             Mock.Assert(()=>_processService.Save(), Occurs.AtLeastOnce());
         }
     }

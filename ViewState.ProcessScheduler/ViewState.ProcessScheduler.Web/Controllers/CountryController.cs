@@ -13,13 +13,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 {
     public class CountryController : Controller
     {
-        private readonly IService<Country> _countryService;
-        private readonly IMapper _mapper;
+        private readonly IService<Country, CountryViewModel> _countryService;
 
-        public CountryController(IService<Country> countryService, IMapper mapper)
+        public CountryController(IService<Country, CountryViewModel> countryService)
         {
             _countryService = countryService;
-            _mapper = mapper;
         }
         
         public ViewResult Index(String sortOrder, String searchString, String currentFilter, int? page)
@@ -38,8 +36,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            IEnumerable<Country> countries = _countryService.GetAll().ToList();
-            IEnumerable<CountryViewModel> countriesViewModel = _mapper.Map<IEnumerable<CountryViewModel>>(countries);
+            IEnumerable<CountryViewModel> countriesViewModel = _countryService.GetAll().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
                 countriesViewModel = countriesViewModel.Where(i => i.Name.Contains(searchString));
@@ -73,11 +70,10 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             try
             {
-                var country = _mapper.Map<CountryViewModel, Country>(countryViewModel);
-                country.ID = Guid.NewGuid();
-                country.DateCreated = DateTime.Now;
+                countryViewModel.ID = Guid.NewGuid();
+                countryViewModel.DateCreated = DateTime.Now;
 
-                _countryService.Create(country);
+                _countryService.Create(countryViewModel);
                 _countryService.Save();
 
                 return RedirectToAction("Index");
@@ -94,13 +90,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var country = _countryService.GetById(id);
+            CountryViewModel countryViewModel = _countryService.GetById(id);
 
-            if (country == null)
+            if (countryViewModel == null)
                 return HttpNotFound();
-
-            var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
-
+            
             return View(countryViewModel);
         }
         [HttpPost,ActionName("Edit")]
@@ -111,9 +105,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             {
                 try
                 {
-                    var country = _mapper.Map<CountryViewModel, Country>(countryViewModel);
-
-                    _countryService.Update(country);
+                    _countryService.Update(countryViewModel);
                     _countryService.Save();
 
                     return RedirectToAction("Index");
@@ -132,13 +124,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if(id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var country = _countryService.GetById(id);
+            CountryViewModel countryViewModel = _countryService.GetById(id);
 
-            if (country == null)
+            if (countryViewModel == null)
                 return HttpNotFound();
-
-            var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
-
+            
             return View(countryViewModel);
         }
 
@@ -147,23 +137,22 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var country = _countryService.GetById(id);
+            CountryViewModel countryViewModel = _countryService.GetById(id);
 
-            if (country == null)
+            if (countryViewModel == null)
                 return HttpNotFound();
-
-            var countryViewModel = _mapper.Map<Country, CountryViewModel>(country);
-
+            
             return View(countryViewModel);
         }
         [HttpPost,ActionName("Deactivate")]
         [ValidateAntiForgeryToken]
         public ActionResult DeactivePost(Guid id)
         {
-            Country country = _countryService.GetById(id);
-            country.Active = false;
-            _countryService.Update(country);
-            
+            CountryViewModel countryViewModel = _countryService.GetById(id);
+            countryViewModel.Active = false;
+            _countryService.Update(countryViewModel);
+            _countryService.Save();
+
             return RedirectToAction("Index");
         }
     }

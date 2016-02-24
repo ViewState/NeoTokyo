@@ -13,13 +13,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 {
     public class ProcessController : Controller
     {
-        private readonly IService<Process> _processService;
-        private readonly IMapper _mapper;
+        private readonly IService<Process, ProcessViewModel> _processService;
 
-        public ProcessController(IService<Process> processService, IMapper mapper)
+        public ProcessController(IService<Process, ProcessViewModel> processService)
         {
             _processService = processService;
-            _mapper = mapper;
         }
 
         // GET: Process
@@ -38,8 +36,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            var processes = _processService.GetAll().ToList();
-            IEnumerable<ProcessViewModel> processViewModels = _mapper.Map<IEnumerable<Process>, IEnumerable<ProcessViewModel>>(processes);
+            IEnumerable<ProcessViewModel> processViewModels = _processService.GetAll().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
                 processViewModels = processViewModels.Where(i => i.Name.Contains(searchString));
@@ -68,13 +65,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if(id == null)
                 return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Process process = _processService.GetById(id);
+            ProcessViewModel processViewModel = _processService.GetById(id);
 
-            if (process == null)
+            if (processViewModel == null)
                 return HttpNotFound();
-
-            ProcessViewModel processViewModel = _mapper.Map<ProcessViewModel>(process);
-
+            
             return View(processViewModel);
         }
 
@@ -90,17 +85,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             try
             {
-                Process process = new Process
-                {
-                    Name = processViewModel.Name,
-                    ID = Guid.NewGuid(),
-                    DateCreated = DateTime.Now,
-                    Active = true,
-                    IsOverNightProcess = processViewModel.IsOverNightProcess,
-                    CompletedStatusText = processViewModel.CompletedStatusText
-                };
+                processViewModel.Active = true;
+                processViewModel.DateCreated = DateTime.Now;
+                processViewModel.ID = Guid.NewGuid();
 
-                _processService.Create(process);
+                _processService.Create(processViewModel);
                 _processService.Save();
 
                 return RedirectToAction("Index");
@@ -117,13 +106,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if(id == null)
                 return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var process = _processService.GetById(id);
+            ProcessViewModel processViewModel = _processService.GetById(id);
 
-            if (process == null)
+            if (processViewModel == null)
                 return HttpNotFound();
-
-            var processViewModel = _mapper.Map<ProcessViewModel>(process);
-
+            
             return View(processViewModel);
         }
 
@@ -133,9 +120,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             try
             {
-                Process process = _mapper.Map<Process>(processViewModel);
-
-                _processService.Update(process);
+                _processService.Update(processViewModel);
                 _processService.Save();
 
                 return RedirectToAction("Index");
@@ -151,13 +136,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             if(id == null)
                 return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Process process = _processService.GetById(id);
+            ProcessViewModel processViewModel = _processService.GetById(id);
 
-            if (process == null)
+            if (processViewModel == null)
                 return HttpNotFound();
-
-            ProcessViewModel processViewModel = _mapper.Map<ProcessViewModel>(process);
-
+            
             return View(processViewModel);
         }
 
@@ -166,11 +149,11 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             try
             {
-                Process process = _processService.GetById(id);
+                ProcessViewModel processViewModel = _processService.GetById(id);
 
-                process.Active = false;
+                processViewModel.Active = false;
 
-                _processService.Update(process);
+                _processService.Update(processViewModel);
                 _processService.Save();
 
                 return RedirectToAction("Index");
