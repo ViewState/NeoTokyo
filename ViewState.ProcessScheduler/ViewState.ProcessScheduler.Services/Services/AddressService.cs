@@ -1,23 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public interface IAddressService
+    public class AddressService : ServiceBase<Address>, IService<Address>
     {
-        //IEnumerable<Address> GetAll();
-        //Address GetById(Guid id);
-        //void CreateEntity(Address data);
-        //void SaveEntity();
-    }
-    public class AddressService : ServiceBase<Address>, IAddressService
-    {
-        public AddressService(IAddressRepository repository, IUnitOfWork unitOfWork) : base(unitOfWork, repository)
+        public AddressService(IAddressRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
 
+        public void Update(Address data)
+        {
+            var target = Repository.GetById(data.ID);
+
+            target.Active = data.Active;
+            target.AddressLine1 = data.AddressLine1;
+            target.AddressLine2 = data.AddressLine2;
+            target.AddressName = data.AddressName;
+            target.CountryID = data.CountryID;
+            target.County = data.County;
+            target.PostCode = data.PostCode;
+            target.Town = data.Town;
+
+            Repository.Update(target);
+        }
     }
 }

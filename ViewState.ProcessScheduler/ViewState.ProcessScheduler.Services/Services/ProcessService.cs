@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
@@ -8,7 +9,7 @@ namespace ViewState.ProcessScheduler.Services
 {
     public class ProcessService : ServiceBase<Process>, IService<Process>
     {
-        public ProcessService(IProcessRepository repository, IUnitOfWork unitOfWork) : base(unitOfWork, repository)
+        public ProcessService(IProcessRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
         

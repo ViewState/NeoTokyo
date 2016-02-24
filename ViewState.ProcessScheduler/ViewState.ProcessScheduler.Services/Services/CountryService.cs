@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Model.Infrastructure;
 using ViewState.ProcessScheduler.Model.Repositories;
@@ -9,7 +10,7 @@ namespace ViewState.ProcessScheduler.Services
 {
     public class CountryService : ServiceBase<Country>, IService<Country>
     {
-        public CountryService(ICountryRepository repository, IUnitOfWork unitOfWork) : base(unitOfWork, repository)
+        public CountryService(ICountryRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
         }
         
@@ -23,10 +24,5 @@ namespace ViewState.ProcessScheduler.Services
 
             Repository.Update(targetCountry);
         }
-
-        public IEnumerable<Country> GetMany(Boolean active)
-        {
-            return Repository.GetAll().Where(i => i.Active == true);
-        } 
     }
 }
