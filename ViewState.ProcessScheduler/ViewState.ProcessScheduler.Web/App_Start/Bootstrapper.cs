@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Web.Mvc;
-using Antlr.Runtime;
 using Autofac;
 using Autofac.Integration.Mvc;
 using AutoMapper;
-using ViewState.ProcessScheduler.Model.Infrastructure;
-using ViewState.ProcessScheduler.Model.Repositories;
+using ViewState.ProcessScheduler.Infrastructure;
+using ViewState.ProcessScheduler.Interfaces;
+using ViewState.ProcessScheduler.Repositories;
 using ViewState.ProcessScheduler.Services;
 using ViewState.ProcessScheduler.Web.Mappings;
 

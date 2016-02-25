@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using AutoMapper;
-using ViewState.ProcessScheduler.Model.Infrastructure;
+using ViewState.ProcessScheduler.Interfaces;
 
 namespace ViewState.ProcessScheduler.Services
 {

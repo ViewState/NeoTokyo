@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ViewState.ProcessScheduler.Entities;
-using ViewState.ProcessScheduler.Model.Infrastructure;
-using ViewState.ProcessScheduler.Model.Repositories;
+using ViewState.ProcessScheduler.Interfaces;
+using ViewState.ProcessScheduler.Repositories;
 
 namespace ViewState.ProcessScheduler.Services
 {

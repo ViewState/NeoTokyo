@@ -227,9 +227,21 @@
       <Project>{764845ef-d18f-4401-b52f-18129ffc022c}</Project>
       <Name>ViewState.ProcessScheduler.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Infrastructure\ViewState.ProcessScheduler.Infrastructure.csproj">
+      <Project>{9cb0801f-0d08-4b6d-942e-cf97c51d295a}</Project>
+      <Name>ViewState.ProcessScheduler.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Interfaces\ViewState.ProcessScheduler.Interfaces.csproj">
+      <Project>{82d9fcdd-8cae-41bf-a26e-e2be02d47317}</Project>
+      <Name>ViewState.ProcessScheduler.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewState.ProcessScheduler.Model\ViewState.ProcessScheduler.Model.csproj">
       <Project>{8c8b34b4-eb97-4a59-ae6e-ad6afe1c1e7d}</Project>
       <Name>ViewState.ProcessScheduler.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewState.ProcessScheduler.Repositories\ViewState.ProcessScheduler.Repositories.csproj">
+      <Project>{81b2c94b-2832-45f1-a90f-39a408b43951}</Project>
+      <Name>ViewState.ProcessScheduler.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewState.ProcessScheduler.Services\ViewState.ProcessScheduler.Services.csproj">
       <Project>{C64FBE37-2EF8-4BDC-9D3A-555C56B0BBA6}</Project>

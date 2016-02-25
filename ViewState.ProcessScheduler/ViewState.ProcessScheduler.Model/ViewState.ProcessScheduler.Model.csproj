@@ -51,13 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\DbFactory.cs" />
-    <Compile Include="Infrastructure\Disposable.cs" />
-    <Compile Include="Infrastructure\IDbFactory.cs" />
-    <Compile Include="Infrastructure\IRepository.cs" />
-    <Compile Include="Infrastructure\IUnitOfWork.cs" />
-    <Compile Include="Infrastructure\RepositoryBase.cs" />
-    <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="ProcessSchedulerDbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,36 +62,6 @@
       <DependentUpon>ProcessSchedulerDbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AddressRepository.cs" />
-    <Compile Include="Repositories\AllocationRepository.cs" />
-    <Compile Include="Repositories\ContactMethodRepository.cs" />
-    <Compile Include="Repositories\ContactTypeRepository.cs" />
-    <Compile Include="Repositories\CountryRepository.cs" />
-    <Compile Include="Repositories\CustomerAddressLinkRepository.cs" />
-    <Compile Include="Repositories\CustomerContactMethodLinkRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderLineRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderLineStatuRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderLineStatusHistoryRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderStatuRepository.cs" />
-    <Compile Include="Repositories\CustomerOrderStatusHistoryRepository.cs" />
-    <Compile Include="Repositories\DepartmentRepository.cs" />
-    <Compile Include="Repositories\DesignRepository.cs" />
-    <Compile Include="Repositories\DesignerRepository.cs" />
-    <Compile Include="Repositories\DesignProcessRepository.cs" />
-    <Compile Include="Repositories\ProcessRepository.cs" />
-    <Compile Include="Repositories\ResourceGroupRepository.cs" />
-    <Compile Include="Repositories\StaffRepository.cs" />
-    <Compile Include="Repositories\StaffResourceGroupLinkRepository.cs" />
-    <Compile Include="Repositories\UnitRepository.cs" />
-    <Compile Include="Repositories\UnitProcessRepository.cs" />
-    <Compile Include="Repositories\UnitProcessStatuRepository.cs" />
-    <Compile Include="Repositories\UnitProcessStatusHistoryRepository.cs" />
-    <Compile Include="Repositories\UnitStatuRepository.cs" />
-    <Compile Include="Repositories\UnitStatusHistoryRepository.cs" />
-    <Compile Include="Repositories\WorksOrderRepository.cs" />
-    <Compile Include="Repositories\WorksOrderStatuRepository.cs" />
-    <Compile Include="Repositories\WorksOrderStatusHistoryRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ProcessSchedulerDbModel.edmx">
