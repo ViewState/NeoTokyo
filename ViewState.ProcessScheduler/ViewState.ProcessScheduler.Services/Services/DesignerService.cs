@@ -1,36 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Interfaces;
 using ViewState.ProcessScheduler.Repositories;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public interface IDesignerService
+    public class DesignerService : ServiceBase<Designer, StaffWithDesignerViewModel>, IService<Designer, StaffWithDesignerViewModel>
     {
-        IEnumerable<Designer> GetAll();
-        Designer GetById(Guid id);
-        void CreateEntity(Designer data);
-        void SaveEntity();
-    }
-
-    public class DesignerService : IDesignerService
-    {
-        private readonly IDesignerRepository _repository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public DesignerService(IDesignerRepository repository, IUnitOfWork unitOfWork)
+        public DesignerService(IRepository<Designer> repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
-            _repository = repository;
-            _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Designer> GetAll() => _repository.GetAll();
+        public void Update(StaffWithDesignerViewModel data)
+        {
+            var target = Repository.GetById(data.ID);
 
-        public Designer GetById(Guid id) => _repository.GetById(id);
+            target.Active = data.IsDesigner;
 
-        public void CreateEntity(Designer data) => _repository.Add(data);
-
-        public void SaveEntity() => _unitOfWork.Commit();
+            Repository.Update(target);
+        }
     }
 }

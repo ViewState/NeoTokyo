@@ -19,7 +19,7 @@ namespace ViewState.ProcessScheduler.Entities
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public bool Active { get; set; }
-        public System.DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
     
         public virtual Designer Designer { get; set; }
         public virtual StaffResourceGroupLink StaffResourceGroupLink { get; set; }

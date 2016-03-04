@@ -99,6 +99,7 @@
     <Compile Include="Controllers\CountryControllerTest.cs" />
     <Compile Include="Controllers\ProcessControllerTest.cs" />
     <Compile Include="Controllers\DepartmentControllerTest.cs" />
+    <Compile Include="Controllers\StaffControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using AutoMapper;
 using ViewState.ProcessScheduler.Entities;
 using ViewState.ProcessScheduler.Interfaces;
 using ViewState.ProcessScheduler.Repositories;
+using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Services
 {
-    public interface IStaffService
+    public class StaffService : ServiceBase<Staff,StaffWithDesignerViewModel>, IService<Staff,StaffWithDesignerViewModel>
     {
-        IEnumerable<Staff> GetAll();
-        Staff GetById(Guid id);
-        void CreateEntity(Staff data);
-        void SaveEntity();
-    }
-
-    public class StaffService : IStaffService
-    {
-        private readonly IStaffRepository _repository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public StaffService(IStaffRepository repository, IUnitOfWork unitOfWork)
+        public StaffService(IRepository<Staff> repository, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, repository, mapper)
         {
-            _repository = repository;
-            _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Staff> GetAll() => _repository.GetAll();
+        public void Update(StaffWithDesignerViewModel data)
+        {
+            Staff target = Repository.GetById(data.ID);
 
-        public Staff GetById(Guid id) => _repository.GetById(id);
+            target.FirstName = data.FirstName;
+            target.Active = data.Active;
+            target.MiddleName = data.MiddleName;
+            target.LastName = data.LastName;
 
-        public void CreateEntity(Staff data) => _repository.Add(data);
-
-        public void SaveEntity() => _unitOfWork.Commit();
+            Repository.Update(target);
+        }
     }
 }

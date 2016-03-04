@@ -10,15 +10,17 @@ using ViewState.ProcessScheduler.ViewModels;
 
 namespace ViewState.ProcessScheduler.Web.Controllers
 {
-    public class DepartmentController : Controller
+    public class StaffController : Controller
     {
-        private readonly IService<Department, DepartmentViewModel> _service;
+        private readonly IService<Staff, StaffWithDesignerViewModel> _staffService;
+        private readonly IService<Designer, StaffWithDesignerViewModel> _designerService;
 
-        public DepartmentController(IService<Department, DepartmentViewModel> service)
+        public StaffController(IService<Staff, StaffWithDesignerViewModel> staffService, IService<Designer, StaffWithDesignerViewModel> designerService )
         {
-            _service = service;
+            _staffService = staffService;
+            _designerService = designerService;
         }
-        
+
         public ActionResult Index(String sortOrder, String searchString, String currentFilter, Int32? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -34,18 +36,18 @@ namespace ViewState.ProcessScheduler.Web.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            IEnumerable<DepartmentViewModel> departmentsViewModels = _service.GetAll().ToList();
+            IEnumerable<StaffWithDesignerViewModel> staffsViewModels = _staffService.GetAll().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
-                departmentsViewModels = departmentsViewModels.Where(i => i.Name.Contains(searchString));
+                staffsViewModels = staffsViewModels.Where(i => i.FirstName.Contains(searchString) || i.LastName.Contains(searchString));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    departmentsViewModels = departmentsViewModels.OrderByDescending(i => i.Name);
+                    staffsViewModels = staffsViewModels.OrderByDescending(i => i.LastName);
                     break;
                 default:
-                    departmentsViewModels = departmentsViewModels.OrderBy(i => i.Name);
+                    staffsViewModels = staffsViewModels.OrderBy(i => i.LastName);
                     break;
             }
 
@@ -54,7 +56,7 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 
             ModelState.Remove("searchString");
 
-            return View(departmentsViewModels.ToPagedList(pageNumber, pageSize));
+            return View(staffsViewModels.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -63,16 +65,22 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DepartmentViewModel departmentViewModel)
+        public ActionResult Create(StaffWithDesignerViewModel staffViewModel)
         {
             try
             {
-                departmentViewModel.Active = true;
-                departmentViewModel.ID = Guid.NewGuid();
-                departmentViewModel.DateCreated = DateTime.Now;
+                staffViewModel.Active = true;
+                staffViewModel.ID = Guid.NewGuid();
+                staffViewModel.DateCreated = DateTime.Now;
 
-                _service.Create(departmentViewModel);
-                _service.Save();
+                _staffService.Create(staffViewModel);
+
+                if (staffViewModel.IsDesigner)
+                {
+                    _designerService.Create(staffViewModel);
+                }
+
+                _staffService.Save();
 
                 return RedirectToAction("Index");
             }
@@ -85,24 +93,24 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 
         public ActionResult Edit(Guid? id)
         {
-            if(id == null)
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            DepartmentViewModel departmentViewModel = _service.GetById(id);
+            StaffWithDesignerViewModel staffViewModel = _staffService.GetById(id);
 
-            if (departmentViewModel == null)
+            if (staffViewModel == null)
                 return HttpNotFound();
 
-            return View(departmentViewModel);
+            return View(staffViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(DepartmentViewModel departmentViewModel)
+        public ActionResult Edit(StaffWithDesignerViewModel staffViewModel)
         {
             try
             {
-                _service.Update(departmentViewModel);
-                _service.Save();
+                _staffService.Update(staffViewModel);
+                _staffService.Save();
 
                 return RedirectToAction("Index");
             }
@@ -114,28 +122,28 @@ namespace ViewState.ProcessScheduler.Web.Controllers
 
         public ActionResult Details(Guid? id)
         {
-            if(id == null)
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            DepartmentViewModel departmentViewModel = _service.GetById(id);
+            StaffWithDesignerViewModel staffViewModel = _staffService.GetById(id);
 
-            if (departmentViewModel == null)
+            if (staffViewModel == null)
                 return HttpNotFound();
 
-            return View(departmentViewModel);
+            return View(staffViewModel);
         }
 
         public ActionResult Deactivate(Guid? id)
         {
-            if(id == null)
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
 
-            DepartmentViewModel departmentViewModel = _service.GetById(id);
+            StaffWithDesignerViewModel staffViewModel = _staffService.GetById(id);
 
-            if (departmentViewModel == null)
+            if (staffViewModel == null)
                 return HttpNotFound();
 
-            return View(departmentViewModel);
+            return View(staffViewModel);
         }
 
         [HttpPost, ActionName("Deactivate")]
@@ -144,12 +152,12 @@ namespace ViewState.ProcessScheduler.Web.Controllers
         {
             try
             {
-                DepartmentViewModel departmentViewModel = _service.GetById(id);
+                StaffWithDesignerViewModel staffViewModel = _staffService.GetById(id);
 
-                departmentViewModel.Active = false;
+                staffViewModel.Active = false;
 
-                _service.Update(departmentViewModel);
-                _service.Save();
+                _staffService.Update(staffViewModel);
+                _staffService.Save();
 
                 return RedirectToAction("Index");
             }
